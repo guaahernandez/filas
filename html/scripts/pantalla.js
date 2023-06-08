@@ -8,12 +8,22 @@ function init(){
 }
 
 function listar_det_pant(agenci, ubicac){
+    var CambiaTexto = 0;
     $.post("../ajax/a_pantalla.php?op=listar_det_pant", function(e){
         document.getElementById("pizarra").innerHTML = e;
+        $.post("../ajax/a_textos.php?op=gettexto", function(e){                    
+        }); 
     });   
     var refreshid = setInterval(function(){
         $.post("../ajax/a_pantalla.php?op=listar_det_pant", function(e){
             document.getElementById("pizarra").innerHTML = e;
+            CambiaTexto++;
+            if(CambiaTexto==5){
+                $.post("../ajax/a_textos.php?op=gettexto", function(e){        
+                    document.getElementById("pietexto").innerHTML = e;             
+                }); 
+                CambiaTexto = 0;
+            }
         }); 
     },3000);
 }
@@ -27,7 +37,7 @@ function cargavideos(){
         n = data["codigo"];
         //alert(n);
         vid.addEventListener("ended",()=>{
-            // si el video se ha acabado cambia el atributo src
+            // si el video se ha acabado se actualiza el atributo src
             $.post("../ajax/a_menus.php?op=cargavideos", { codigo : n}, function(e){
                 data=JSON.parse(e);
                 vid.setAttribute("src", "http://ws.laguacamaya.cr:13565/filas/assets/videos/"+data["direcc"]);

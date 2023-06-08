@@ -2,6 +2,8 @@
 include '../config/global_dat.php';
 session_start();
 $_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "";
+$_SESSION["ntexto"] = 0;
+$_SESSION["texto"] = "";
 //echo $_SESSION["ip"];
 ?>
 
@@ -105,9 +107,9 @@ $_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "";
             color: #ffe800;
             padding-top: 8px;
             margin-right: 0;
-            text-align: right;
-            font-size: 1.5em;
-            font-weight: bold;
+            text-align: center;
+            font-size: 2.5em;
+            font-weight:bolder;
             font-style: italic;
             border-bottom: solid 3px #ffe800;
             border-top: solid 3px #ffe800;
@@ -147,7 +149,11 @@ $_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "";
             </div>
             <div class="row" id="pizarra" style="text-align: center;">
             </div>
-            
+            <div class="row">
+              <div id="pietexto" class="col-12 pieizq marquee">
+                  <p>GRACIAS POR SU VISITA</p>
+              </div>
+            </div>
           <!-- ============================================================== -->
           <!-- End PAge Content -->
           <!-- ============================================================== -->
@@ -202,4 +208,24 @@ $_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "";
   </body>
 </html>
 <script src="scripts/pantalla.js"></script>
-<!-- <script>init('<?=$_GET["c"];?>');</script> -->
+<script src="../ajax/tss.js"></script>
+<style>
+.marquee {
+  /*width: 450px;*/
+	line-height: 50px;
+	background-color: red;
+	color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.marquee p {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 15s linear infinite;
+}
+@keyframes marquee {
+  0%   { transform: translate(0, 0); }
+  100% { transform: translate(-100%, 0); }
+}
+</style>

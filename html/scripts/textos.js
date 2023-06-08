@@ -14,10 +14,8 @@ function init(){
 function limpiar(){
 	$("#agenci").val("");
 	$("#codigo").val("");
-	$("#direcc").val("");
+	$("#texto").val("");
     $("#estado").val(""); 
-    $("#videoa").val(""); 
-    $("#descri").val(""); 
 }
  
 //funcion mostrar formulario
@@ -40,12 +38,11 @@ function cancelarform(){
 	limpiar();
 	mostrarform(false);
 	tabla.column(1).visible(false);
-	tabla.column(3).visible(false);
+	// tabla.column(3).visible(false);
 }
 
 //funcion listar
 function listar(){    
-    
 	tabla=$('#tbllistado').dataTable({
 		"aProcessing": true,//activamos el procedimiento del datatable
 		"aServerSide": true,//paginacion y filrado realizados por el server
@@ -58,7 +55,7 @@ function listar(){
 		buttons: [
 			{
 			extend: 'print',
-			messageTop: 'Listado de Videos'
+			messageTop: 'Listado de Textos'
 			},
 			  'excelHtml5',
 			  'pdf',      
@@ -69,7 +66,7 @@ function listar(){
 		},
 		"ajax":
 		{
-			url:'../ajax/a_videos.php?op=listar',
+			url:'../ajax/a_textos.php?op=listar',
 			type: "post",
 			dataType : "json",
 			error:function(e){
@@ -78,10 +75,10 @@ function listar(){
 		},
 		"bDestroy":true,
 		"iDisplayLength":10,//paginacion
-		"order":[[6,"desc"]]//ordenar (columna, orden)
+		"order":[[4,"desc"]]//ordenar (columna, orden)
 	}).DataTable();
 	tabla.column(1).visible(false);
-	tabla.column(3).visible(false);
+	//tabla.column(3).visible(false);
 }
 //funcion para guardaryeditar
 function guardaryeditar(e){
@@ -90,7 +87,7 @@ function guardaryeditar(e){
      var formData=new FormData($("#formulario")[0]);
 
      $.ajax({
-     	url: "../ajax/a_videos.php?op=guardaryeditar",
+     	url: "../ajax/a_textos.php?op=guardaryeditar",
      	type: "POST",
      	data: formData,
      	contentType: false,
@@ -108,19 +105,17 @@ function guardaryeditar(e){
 
 function mostrar(codigo){
 	
-	$.post("../ajax/a_videos.php?op=mostrar",{codigo : codigo},
+	$.post("../ajax/a_textos.php?op=mostrar",{codigo : codigo},
 		function(data,status)
 		{
-			// tabla.column(1).visible(true);
+			tabla.column(1).visible(true);
 			// tabla.column(3).visible(true);
 			data=JSON.parse(data);
-			mostrarform(true);
-			
-            $("#descri").val(data.descri);    
-			$("#agenci").val(data.agenci);
-			$("#videoa").val(data.direcc);
+			mostrarform(true);    
+			$("#agenci").val(data.agenci);			
 			$("#estado").val(data.estado);
             $("#codigo").val(data.codigo);
+			$("#texto").val(data.texto);
 		})
 }
 
@@ -129,7 +124,7 @@ function mostrar(codigo){
 function desactivar(codigo){
 	bootbox.confirm({ message : '¿Esta seguro(a) de desactivar este dato?', closeButton : false, callback : function(result){
 		if (result) {
-			$.post("../ajax/a_videos.php?op=desactivar", {codigo : codigo}, function(e){
+			$.post("../ajax/a_textos.php?op=desactivar", {codigo : codigo}, function(e){
 				//bootbox.alert(e);
 				tabla.ajax.reload();
 			});
@@ -140,7 +135,7 @@ function desactivar(codigo){
 function activar(codigo){
 	bootbox.confirm({message : "¿Esta seguro(a) de activar este dato?", closeButton : false , callback : function(result){
 		if (result) {
-			$.post("../ajax/a_videos.php?op=activar" , {codigo : codigo}, function(e){
+			$.post("../ajax/a_textos.php?op=activar" , {codigo : codigo}, function(e){
 				//bootbox.alert(e);
 				tabla.ajax.reload();
 			});
@@ -148,21 +143,8 @@ function activar(codigo){
 	}});
 }
 
-function getdirecc(codigo){
-    $.post("../ajax/a_videos.php?op=getdirecc", { codigo : codigo }, function(e){
-        //alert("a");
-        $.ajax({
-            url: "videos_preview.php?direcc="+e,
-             type: "GET",
-             success: function(dato){
-                 document.getElementById("vervideo").innerHTML = dato;
-             }
-        })
-    });    
-}
-
 async function getcias(){
-    await $.post("../ajax/a_videos.php?op=getcias", function(e){
+    await $.post("../ajax/a_textos.php?op=getcias", function(e){
         //alert(e);
         $("#agenci").html(e);
     });   

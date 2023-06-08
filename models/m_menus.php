@@ -39,6 +39,7 @@ public function mostrar($agenci, $ubmenu, $codigo){
 //listar registros
 public function listar($ubmenu){
 	$sql="SELECT * FROM opcmenu WHERE agenci in ('00','".$_SESSION["agenci"]."') and ubmenu='$ubmenu' and estado=1 order by ordenm";
+	//echo $sql;
 	return ejecutarConsulta($sql);
 }
 

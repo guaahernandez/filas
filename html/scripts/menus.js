@@ -175,7 +175,7 @@ async function getcias(){
 
 async function mnopcion(agenci,tipoco,prefer){
     if(tipoco=='P'){
-        cargamenu('01','prefer');
+        cargamenu('prefer');
     }else{
         await $.post("../ajax/a_menus.php?op=creaticket", { agenci : agenci, tipoco : tipoco, prefer : prefer }, function(e){
 			// alert(e);

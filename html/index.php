@@ -38,21 +38,25 @@
             <div class="col-md-6 col-lg-2 col-xlg-3">
               <div class="card card-hover">
                 <div class="box bg-cyan text-center">
-                  <h1 class="font-light text-white">
-                    <i class="mdi mdi-view-dashboard"></i>
-                  </h1>
-                  <h6 class="text-white">Dashboard</h6>
+                  <a href="#">
+                    <h1 class="font-light text-white">
+                      <i class="mdi mdi-view-dashboard"></i>
+                    </h1>
+                    <h6 class="text-white">Dashboard</h6>
+                  </a>
                 </div>
               </div>
             </div>
             <!-- Column -->
-            <div class="col-md-6 col-lg-4 col-xlg-3">
+            <div class="col-md-6 col-lg-2 col-xlg-3">
               <div class="card card-hover">
                 <div class="box bg-success text-center">
-                  <h1 class="font-light text-white">
-                    <i class="mdi mdi-chart-areaspline"></i>
-                  </h1>
-                  <h6 class="text-white">Charts</h6>
+                  <a href="videos.php">
+                    <h1 class="font-light text-white">
+                      <i class="mdi mdi-chart-areaspline"></i>
+                    </h1>
+                    <h6 class="text-white">Videos</h6>
+                  </a> 
                 </div>
               </div>
             </div>
@@ -60,10 +64,12 @@
             <div class="col-md-6 col-lg-2 col-xlg-3">
               <div class="card card-hover">
                 <div class="box bg-warning text-center">
-                  <h1 class="font-light text-white">
-                    <i class="mdi mdi-collage"></i>
-                  </h1>
-                  <h6 class="text-white">Widgets</h6>
+                  <a href="usuario.php">
+                    <h1 class="font-light text-white">
+                      <i class="mdi mdi-collage"></i>
+                    </h1>
+                    <h6 class="text-white">Usuarios</h6>
+                  </a>
                 </div>
               </div>
             </div>
@@ -74,12 +80,12 @@
                   <h1 class="font-light text-white">
                     <i class="mdi mdi-border-outside"></i>
                   </h1>
-                  <h6 class="text-white">Tables</h6>
+                  <h6 class="text-white">Vendedores</h6>
                 </div>
               </div>
             </div>
             <!-- Column -->
-            <div class="col-md-6 col-lg-2 col-xlg-3">
+            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
               <div class="card card-hover">
                 <div class="box bg-info text-center">
                   <h1 class="font-light text-white">
@@ -88,10 +94,10 @@
                   <h6 class="text-white">Full Width</h6>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- Column -->
             <!-- Column -->
-            <div class="col-md-6 col-lg-4 col-xlg-3">
+            <!-- <div class="col-md-6 col-lg-4 col-xlg-3">
               <div class="card card-hover">
                 <div class="box bg-danger text-center">
                   <h1 class="font-light text-white">
@@ -100,9 +106,9 @@
                   <h6 class="text-white">Forms</h6>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- Column -->
-            <div class="col-md-6 col-lg-2 col-xlg-3">
+            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
               <div class="card card-hover">
                 <div class="box bg-info text-center">
                   <h1 class="font-light text-white">
@@ -111,9 +117,9 @@
                   <h6 class="text-white">Buttons</h6>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- Column -->
-            <div class="col-md-6 col-lg-2 col-xlg-3">
+            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
               <div class="card card-hover">
                 <div class="box bg-cyan text-center">
                   <h1 class="font-light text-white">
@@ -122,9 +128,9 @@
                   <h6 class="text-white">Elements</h6>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- Column -->
-            <div class="col-md-6 col-lg-2 col-xlg-3">
+            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
               <div class="card card-hover">
                 <div class="box bg-success text-center">
                   <h1 class="font-light text-white">
@@ -133,9 +139,9 @@
                   <h6 class="text-white">Calnedar</h6>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- Column -->
-            <div class="col-md-6 col-lg-2 col-xlg-3">
+            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
               <div class="card card-hover">
                 <div class="box bg-warning text-center">
                   <h1 class="font-light text-white">
@@ -144,13 +150,13 @@
                   <h6 class="text-white">Errors</h6>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- Column -->
           </div>
           <!-- ============================================================== -->
           <!-- Sales chart -->
           <!-- ============================================================== -->
-          <div class="row">
+          <div class="row" style="display: none;">
             <div class="col-md-12">
               <div class="card">
                 <div class="card-body">
@@ -221,14 +227,14 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> 
           <!-- ============================================================== -->
           <!-- Sales chart -->
           <!-- ============================================================== -->
           <!-- ============================================================== -->
           <!-- Recent comment and chats -->
           <!-- ============================================================== -->
-          <div class="row">
+          <div class="row" style="display: none;">
             <!-- column -->
             <div class="col-lg-6">
               <div class="card">

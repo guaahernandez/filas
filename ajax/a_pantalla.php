@@ -17,14 +17,6 @@ switch ($_GET["op"]) {
     
     case 'listar_det_pant':
         ?>
-        <!-- <script>    
-            function text_a_voz(text){
-                const synth = window.speechSynthesis
-                //let text = "V1, pasar a ventas 1"
-                const utterThis = new SpeechSynthesisUtterance(text);
-                synth.speak(utterThis)
-            }
-        </script> -->
             <div class="col-5 titulo">Turno</div>
             <div class="col-7 titulo">Puesto</div>
         <?php
@@ -43,7 +35,7 @@ switch ($_GET["op"]) {
             <div class="col-7 num <?=$fondo;?>">
                 <?=$reg->destin;?>        
             </div>
-            <!-- <script>text_a_voz('Hola mundo');</script> -->
+            
             <?php
             $fondo = "";
             
@@ -53,12 +45,7 @@ switch ($_GET["op"]) {
             <div class="col-12 num">                        
             </div>
         <?php } ?>
-            <div class="col-6 pieizq">
-                <p>CONFIANZA Y AHORRO</p>
-            </div>
-            <div class="col-6 pieder">
-                <p>EN CADA REPUESTO</p>
-            </div>
+            
         <?php
         break;
     
@@ -82,6 +69,3 @@ switch ($_GET["op"]) {
 
     }       
  ?>
-
- 
-

@@ -247,6 +247,15 @@
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="textos.php"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-note-text"></i
+                  ><span class="hide-menu">Textos</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
                   href="kiosco.php"
                   aria-expanded="false"
                   ><i class="mdi mdi-monitor"></i
@@ -259,10 +268,10 @@
                   href="pantalla.php"
                   aria-expanded="false"
                   ><i class="mdi mdi-monitor"></i
-                  ><span class="hide-menu">Pantalla Ventas</span></a
+                  ><span class="hide-menu">Pantallas</span></a
                 >
               </li>
-              <li class="sidebar-item">
+              <!-- <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
                   href="pantalla.php"
@@ -270,7 +279,7 @@
                   ><i class="mdi mdi-monitor"></i
                   ><span class="hide-menu">Pantalla Entregas</span></a
                 >
-              </li>
+              </li> -->
                 
               
               

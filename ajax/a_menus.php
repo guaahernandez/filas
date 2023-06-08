@@ -28,6 +28,7 @@ switch ($_GET["op"]) {
     
     case 'cargamenu':
         $rspta=$model->listar($ubmenu);
+        //echo $ubmenu;
         $prefer = ($ubmenu=='prefer') ? 1 : 0;
         while ($reg=$rspta->fetch_object()) {
             ?>
@@ -45,7 +46,7 @@ switch ($_GET["op"]) {
         }
         if($ubmenu=='prefer'){ ?>
             <div class="col-md-3 col-lg-3 col-xlg-2">
-                <div class="card card-hover" onclick="cargamenu('<?=$agenci;?>', 'principal');">
+                <div class="card card-hover" onclick="cargamenu('principal');">
                     <div class="box bg-info text-center" style="height: 21vh;">
                     <h1 class="text-white" style="padding-top: 15px; padding-bottom: 5px; font-size: 4.5em;">
                         <i class="mdi mdi-keyboard-return"></i>
