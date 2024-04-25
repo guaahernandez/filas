@@ -1,4 +1,11 @@
-<?php include 'header.php' ?>
+<?php 
+ob_start();
+include 'header.php' 
+?>
+
+<!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
+      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css"/>
       <!-- ============================================================== -->
       <!-- Page wrapper  -->
       <!-- ============================================================== -->
@@ -24,8 +31,66 @@
           </div>
         </div>
         <!-- ============================================================== -->
+        <!-- Inicia filtros -->
+        <!-- ============================================================== -->
+        <form onsubmit="totvisitas(); return false" class="form" method="post">
+        <div class="row" style="margin-left: 7px;">
+          <div class="col-sm-3">
+            <!-- <div class="form-group"> -->
+              <label>Sede</label>
+              <select class="form-control" name="fsede" id="fsede" onchange="totvisitas();">
+                <option value="1">Sede Central</option>
+              </select>
+            <!-- </div> -->
+          </div>
+          <div class="col-sm-2" style="display: none;">
+            <!-- <div class="form-group"> -->
+              <label>Area</label>
+              <select class="form-control" name="farea" id="farea">
+                <option value="0">Todas...</option>
+                <option value="V">Ventas</option>
+                <option value="C">Cajas</option>
+                <option value="E">Entregas</option>
+              </select>
+            <!-- </div> -->
+          </div>
+
+          <div class="col-sm-2">
+            <!-- <div class="form-group"> -->
+              <?php 
+              $date = date_create(date('Y-m-d')); 
+              date_sub($date, date_interval_create_from_date_string('30 days')); 
+              ?>
+              <label>Desde</label>
+              <a href="javascript:void(0);" onclick="MoverFecha('-');" class="btn btn-sm btn-secondary"><i class="mdi mdi-arrow-left-bold"></i></a>
+              <a href="javascript:void(0);" onclick="MoverHoy();" class="btn btn-sm btn-info"><i class="mdi mdi-calendar"></i> hoy </a>
+              <a href="javascript:void(0);" onclick="MoverFecha('+');" class="btn btn-sm btn-secondary"><i class="mdi mdi-arrow-right-bold"></i></a>
+              <input type="date" onchange="totvisitas();" class="form-control" id="fecini" name="fecini" value="<?=date('Y-m-d')?>" min="<?=date_format($date, 'Y-m-d')?>">
+            <!-- </div> -->
+          </div>
+          <div class="col-sm-2">
+            <!-- <div class="form-group"> -->
+              <label>Hasta</label>
+              <input type="date" onchange="totvisitas();" class="form-control" id="fecfin" name="fecfin" value="<?=date('Y-m-d')?>" min="<?=date_format($date, 'Y-m-d')?>">
+            <!-- </div> -->
+          </div>
+
+          <div class="col-sm-1">
+            <div class="form-group">
+              <label>&nbsp;</label>
+              <input type="submit" class="form-control btn btn-info" value="Ver">
+            </div>
+          </div>
+        </div>
+        </form>
+        <!-- ============================================================== -->
+        <!-- Finaliza filtros -->
+        <!-- ============================================================== -->
+
+        <!-- ============================================================== -->
         <!-- End Bread crumb and right sidebar toggle -->
         <!-- ============================================================== -->
+
         <!-- ============================================================== -->
         <!-- Container fluid  -->
         <!-- ============================================================== -->
@@ -35,7 +100,7 @@
           <!-- ============================================================== -->
           <div class="row">
             <!-- Column -->
-            <div class="col-md-6 col-lg-2 col-xlg-3">
+            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
               <div class="card card-hover">
                 <div class="box bg-cyan text-center">
                   <a href="#">
@@ -46,44 +111,46 @@
                   </a>
                 </div>
               </div>
-            </div>
-            <!-- Column -->
-            <div class="col-md-6 col-lg-2 col-xlg-3">
-              <div class="card card-hover">
-                <div class="box bg-success text-center">
-                  <a href="videos.php">
+            </div> -->
+            <?php if($_SESSION["cftidtipousuario"] != 4){ ?>
+              <!-- Column -->
+              <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
+                <div class="card card-hover">
+                  <div class="box bg-success text-center">
+                    <a href="videos.php">
+                      <h1 class="font-light text-white">
+                        <i class="mdi mdi-chart-areaspline"></i>
+                      </h1>
+                      <h6 class="text-white">Videos</h6>
+                    </a> 
+                  </div>
+                </div>
+              </div> -->
+              <!-- Column -->
+              <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
+                <div class="card card-hover">
+                  <div class="box bg-warning text-center">
+                    <a href="usuario.php">
+                      <h1 class="font-light text-white">
+                        <i class="mdi mdi-collage"></i>
+                      </h1>
+                      <h6 class="text-white">Usuarios</h6>
+                    </a>
+                  </div>
+                </div>
+              </div> -->
+              <!-- Column -->
+              <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
+                <div class="card card-hover">
+                  <div class="box bg-danger text-center">
                     <h1 class="font-light text-white">
-                      <i class="mdi mdi-chart-areaspline"></i>
+                      <i class="mdi mdi-border-outside"></i>
                     </h1>
-                    <h6 class="text-white">Videos</h6>
-                  </a> 
+                    <h6 class="text-white">Vendedores</h6>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <!-- Column -->
-            <div class="col-md-6 col-lg-2 col-xlg-3">
-              <div class="card card-hover">
-                <div class="box bg-warning text-center">
-                  <a href="usuario.php">
-                    <h1 class="font-light text-white">
-                      <i class="mdi mdi-collage"></i>
-                    </h1>
-                    <h6 class="text-white">Usuarios</h6>
-                  </a>
-                </div>
-              </div>
-            </div>
-            <!-- Column -->
-            <div class="col-md-6 col-lg-2 col-xlg-3">
-              <div class="card card-hover">
-                <div class="box bg-danger text-center">
-                  <h1 class="font-light text-white">
-                    <i class="mdi mdi-border-outside"></i>
-                  </h1>
-                  <h6 class="text-white">Vendedores</h6>
-                </div>
-              </div>
-            </div>
+              </div> -->
+            <?php } ?>
             <!-- Column -->
             <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
               <div class="card card-hover">
@@ -156,1095 +223,269 @@
           <!-- ============================================================== -->
           <!-- Sales chart -->
           <!-- ============================================================== -->
-          <div class="row" style="display: none;">
+          <div class="row">
             <div class="col-md-12">
               <div class="card">
                 <div class="card-body">
                   <div class="d-md-flex align-items-center">
                     <div>
-                      <h4 class="card-title">Site Analysis</h4>
-                      <h5 class="card-subtitle">Overview of Latest Month</h5>
+                      <!-- <h4 class="card-title">Analisis de visitas</h4> -->
+                      <!-- <h5 class="card-subtitle">Ultimos 11 días</h5> -->
                     </div>
                   </div>
                   <div class="row">
                     <!-- column -->
-                    <div class="col-lg-9">
-                      <div class="flot-chart">
-                        <div
-                          class="flot-chart-content"
-                          id="flot-line-chart"
-                        ></div>
-                      </div>
+                    <div class="col-lg-7">
+                      <div id="grafica" style="max-height: 350px;"></div>
+                      
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-1">
                       <div class="row">
-                        <div class="col-6">
-                          <div class="bg-dark p-10 text-white text-center">
-                            <i class="mdi mdi-account fs-3 mb-1 font-16"></i>
-                            <h5 class="mb-0 mt-1">2540</h5>
-                            <small class="font-light">Total Users</small>
-                          </div>
+                        <div class="col-12">
+                          <a href="#" onclick="turnosetapas_();" data-bs-toggle="modal" data-bs-target="#modaldatos">
+                            <div class="bg-dark p-10 text-white text-center">
+                              <i class="mdi mdi-account fs-3 mb-1 font-16"></i>
+                              <h5 id="totvisitas" class="mb-0 mt-1">-</h5>
+                              <small class="font-light">Visitantes</small>
+                            </div>
+                          </a>
                         </div>
-                        <div class="col-6">
-                          <div class="bg-dark p-10 text-white text-center">
-                            <i class="mdi mdi-plus fs-3 font-16"></i>
-                            <h5 class="mb-0 mt-1">120</h5>
-                            <small class="font-light">New Users</small>
-                          </div>
-                        </div>
-                        <div class="col-6 mt-3">
+                        
+                        <div class="col-12 mt-3">
+                          <a href="#" data-bs-toggle="modal" onclick="griddatostotal('');" data-bs-target="#modaldatos">
                           <div class="bg-dark p-10 text-white text-center">
                             <i class="mdi mdi-cart fs-3 mb-1 font-16"></i>
-                            <h5 class="mb-0 mt-1">656</h5>
-                            <small class="font-light">Total Shop</small>
+                            <h5 id="totcompras" class="mb-0 mt-1">-</h5>
+                            <small class="font-light">Ventas</small>
                           </div>
+                          </a>
                         </div>
-                        <div class="col-6 mt-3">
+                        
+                        <div class="col-12 mt-3">
                           <div class="bg-dark p-10 text-white text-center">
-                            <i class="mdi mdi-tag fs-3 mb-1 font-16"></i>
-                            <h5 class="mb-0 mt-1">9540</h5>
-                            <small class="font-light">Total Orders</small>
+                            <i class="mdi mdi-check fs-3 mb-1 font-16"></i>
+                            <h5 id="completos" class="mb-0 mt-1">-</h5>
+                            <small class="font-light">Completos</small>
                           </div>
                         </div>
-                        <div class="col-6 mt-3">
-                          <div class="bg-dark p-10 text-white text-center">
-                            <i class="mdi mdi-table fs-3 mb-1 font-16"></i>
-                            <h5 class="mb-0 mt-1">100</h5>
-                            <small class="font-light">Pending Orders</small>
-                          </div>
-                        </div>
-                        <div class="col-6 mt-3">
-                          <div class="bg-dark p-10 text-white text-center">
-                            <i class="mdi mdi-web fs-3 mb-1 font-16"></i>
-                            <h5 class="mb-0 mt-1">8540</h5>
-                            <small class="font-light">Online Orders</small>
-                          </div>
-                        </div>
+                        
                       </div>
                     </div>
+                    <div class="col-lg-4">                      
+                      <div align="center" id="turnostot" style="text-align: center; max-height: 350px;"></div>                        
+                    </div>
+                    
                     <!-- column -->
                   </div>
+                  
                 </div>
               </div>
             </div>
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="col-12">
+                    <div align="center" id="turnosetapas" style="max-height: 350px;">etapas</div>
+                  </div>     
+                </div>           
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="col-12">
+                    <div align="center" id="turnosetapas2" style="max-height: 350px;">tramites</div>
+                  </div>     
+                </div>           
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="col-12">
+                    <div align="center" id="canceladosxetapa" style="max-height: 350px;">cancelados x etapa</div>
+                  </div>     
+                </div>           
+              </div>
+            </div>
+            <div class="col-lg-12">                        
+              <div align="center" id="turnosxvendedor">Turnos por vendedor</div>                              
+            </div>
+            <div class="col-lg-12">                        
+              <div align="center" id="tiempopromventas">Tiempo promedio ventas</div>                              
+            </div>
+            <div class="col-lg-6">                        
+              <div align="center" class="card" id="emisionesporhora">Emisiones por hora</div>                              
+            </div>
+            <div class="col-lg-6">  
+              <div align="center" class="col-12"><h4>Datos resumidos</h4></div>                      
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card mt-0">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div id="esperageneral" class="peity_line_neutral left text-center mt-2">
+                          <h2>00:00</h2>
+                        </div>
+                      </div>
+                      <div class="col-md-12 border-left text-center pt-2">
+                        <span class="text-muted">Espera General</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="card mt-0">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div id="atenciongeneral" class="peity_line_neutral left text-center mt-2">
+                          <h2>00:00</h2>
+                        </div>
+                      </div>
+                      <div class="col-md-12 border-left text-center pt-2">
+                        <span class="text-muted">Atención General</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="card mt-0">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div id="porcentajecompra" class="peity_line_neutral left text-center mt-2">
+                          <h2>00%</h2>
+                        </div>
+                      </div>
+                      <div class="col-md-12 border-left text-center pt-2">
+                        <span class="text-muted">Porcentaje de compra</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="card mt-0">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div id="ingresoporventas" class="peity_line_neutral left text-center mt-2">
+                          <h2>₡ 000,000</h2>
+                        </div>
+                      </div>
+                      <div class="col-md-12 border-left text-center pt-2">
+                        <span class="text-muted">Ingreso por ventas</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>                              
+            </div>
+            <!-- <div class="col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="col-12">
+                    <div align="center" id="donutchart" style="text-align: center; height: 300px;">etapas</div>
+                  </div>     
+                </div>           
+              </div>
+            </div>
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-body">
+                  <div class="col-12">
+                    <div align="center" id="lineaschart" style="text-align: center; height: 300px;">lineas</div>
+                  </div>     
+                </div>           
+              </div>
+            </div> -->
           </div> 
+          </div> 
+          
           <!-- ============================================================== -->
           <!-- Sales chart -->
           <!-- ============================================================== -->
-          <!-- ============================================================== -->
-          <!-- Recent comment and chats -->
-          <!-- ============================================================== -->
-          <div class="row" style="display: none;">
-            <!-- column -->
-            <div class="col-lg-6">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Latest Posts</h4>
-                </div>
-                <div class="comment-widgets scrollable">
-                  <!-- Comment Row -->
-                  <div class="d-flex flex-row comment-row mt-0">
-                    <div class="p-2">
-                      <img
-                        src="../assets/images/users/1.jpg"
-                        alt="user"
-                        width="50"
-                        class="rounded-circle"
-                      />
-                    </div>
-                    <div class="comment-text w-100">
-                      <h6 class="font-medium">James Anderson</h6>
-                      <span class="mb-3 d-block"
-                        >Lorem Ipsum is simply dummy text of the printing and
-                        type setting industry.
-                      </span>
-                      <div class="comment-footer">
-                        <span class="text-muted float-end">April 14, 2021</span>
-                        <button
-                          type="button"
-                          class="btn btn-cyan btn-sm text-white"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-success btn-sm text-white"
-                        >
-                          Publish
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-danger btn-sm text-white"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Comment Row -->
-                  <div class="d-flex flex-row comment-row">
-                    <div class="p-2">
-                      <img
-                        src="../assets/images/users/4.jpg"
-                        alt="user"
-                        width="50"
-                        class="rounded-circle"
-                      />
-                    </div>
-                    <div class="comment-text active w-100">
-                      <h6 class="font-medium">Michael Jorden</h6>
-                      <span class="mb-3 d-block"
-                        >Lorem Ipsum is simply dummy text of the printing and
-                        type setting industry.
-                      </span>
-                      <div class="comment-footer">
-                        <span class="text-muted float-end">May 10, 2021</span>
-                        <button
-                          type="button"
-                          class="btn btn-cyan btn-sm text-white"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-success btn-sm text-white"
-                        >
-                          Publish
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-danger btn-sm text-white"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Comment Row -->
-                  <div class="d-flex flex-row comment-row">
-                    <div class="p-2">
-                      <img
-                        src="../assets/images/users/5.jpg"
-                        alt="user"
-                        width="50"
-                        class="rounded-circle"
-                      />
-                    </div>
-                    <div class="comment-text w-100">
-                      <h6 class="font-medium">Johnathan Doeting</h6>
-                      <span class="mb-3 d-block"
-                        >Lorem Ipsum is simply dummy text of the printing and
-                        type setting industry.
-                      </span>
-                      <div class="comment-footer">
-                        <span class="text-muted float-end">August 1, 2021</span>
-                        <button
-                          type="button"
-                          class="btn btn-cyan btn-sm text-white"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-success btn-sm text-white"
-                        >
-                          Publish
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-danger btn-sm text-white"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Card -->
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">To Do List</h4>
-                  <div class="todo-widget scrollable" style="height: 450px">
-                    <ul
-                      class="list-task todo-list list-group mb-0"
-                      data-role="tasklist"
-                    >
-                      <li class="list-group-item todo-item" data-role="task">
-                        <div class="form-check">
-                          <input
-                            type="checkbox"
-                            class="form-check-input"
-                            id="customCheck"
-                          />
-                          <label
-                            class="form-check-label w-100 mb-0 todo-label"
-                            for="customCheck"
-                          >
-                            <span class="todo-desc fw-normal"
-                              >Lorem Ipsum is simply dummy text of the printing
-                              and typesetting industry.</span
-                            >
-                            <span class="badge rounded-pill bg-danger float-end"
-                              >Today</span
-                            >
-                          </label>
-                        </div>
-                        <ul class="list-style-none assignedto">
-                          <li class="assignee">
-                            <img
-                              class="rounded-circle"
-                              width="40"
-                              src="../assets/images/users/1.jpg"
-                              alt="user"
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-original-title="Steave"
-                            />
-                          </li>
-                          <li class="assignee">
-                            <img
-                              class="rounded-circle"
-                              width="40"
-                              src="../assets/images/users/2.jpg"
-                              alt="user"
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-original-title="Jessica"
-                            />
-                          </li>
-                          <li class="assignee">
-                            <img
-                              class="rounded-circle"
-                              width="40"
-                              src="../assets/images/users/3.jpg"
-                              alt="user"
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-original-title="Priyanka"
-                            />
-                          </li>
-                          <li class="assignee">
-                            <img
-                              class="rounded-circle"
-                              width="40"
-                              src="../assets/images/users/4.jpg"
-                              alt="user"
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-original-title="Selina"
-                            />
-                          </li>
-                        </ul>
-                      </li>
-                      <li class="list-group-item todo-item" data-role="task">
-                        <div class="form-check">
-                          <input
-                            type="checkbox"
-                            class="form-check-input"
-                            id="customCheck1"
-                          />
-                          <label
-                            class="form-check-label w-100 mb-0 todo-label"
-                            for="customCheck1"
-                          >
-                            <span class="todo-desc fw-normal"
-                              >Lorem Ipsum is simply dummy text of the
-                              printing</span
-                            ><span
-                              class="badge rounded-pill bg-primary float-end"
-                              >1 week
-                            </span>
-                          </label>
-                        </div>
-                        <div class="item-date">26 jun 2021</div>
-                      </li>
-                      <li class="list-group-item todo-item" data-role="task">
-                        <div class="form-check">
-                          <input
-                            type="checkbox"
-                            class="form-check-input"
-                            id="customCheck2"
-                          />
-                          <label
-                            class="form-check-label w-100 mb-0 todo-label"
-                            for="customCheck2"
-                          >
-                            <span class="todo-desc fw-normal"
-                              >Give Purchase report to</span
-                            >
-                            <span class="badge rounded-pill bg-info float-end"
-                              >Yesterday</span
-                            >
-                          </label>
-                        </div>
-                        <ul class="list-style-none assignedto">
-                          <li class="assignee">
-                            <img
-                              class="rounded-circle"
-                              width="40"
-                              src="../assets/images/users/3.jpg"
-                              alt="user"
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-original-title="Priyanka"
-                            />
-                          </li>
-                          <li class="assignee">
-                            <img
-                              class="rounded-circle"
-                              width="40"
-                              src="../assets/images/users/4.jpg"
-                              alt="user"
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-original-title="Selina"
-                            />
-                          </li>
-                        </ul>
-                      </li>
-                      <li class="list-group-item todo-item" data-role="task">
-                        <div class="form-check">
-                          <input
-                            type="checkbox"
-                            class="form-check-input"
-                            id="customCheck3"
-                          />
-                          <label
-                            class="form-check-label w-100 mb-0 todo-label"
-                            for="customCheck3"
-                          >
-                            <span class="todo-desc fw-normal"
-                              >Lorem Ipsum is simply dummy text of the printing
-                            </span>
-                            <span
-                              class="badge rounded-pill bg-warning float-end"
-                              >2 weeks</span
-                            >
-                          </label>
-                        </div>
-                        <div class="item-date">26 jun 2021</div>
-                      </li>
-                      <li class="list-group-item todo-item" data-role="task">
-                        <div class="form-check">
-                          <input
-                            type="checkbox"
-                            class="form-check-input"
-                            id="customCheck4"
-                          />
-                          <label
-                            class="form-check-label w-100 mb-0 todo-label"
-                            for="customCheck4"
-                          >
-                            <span class="todo-desc fw-normal"
-                              >Give Purchase report to</span
-                            >
-                            <span class="badge rounded-pill bg-info float-end"
-                              >Yesterday</span
-                            >
-                          </label>
-                        </div>
-                        <ul class="list-style-none assignedto">
-                          <li class="assignee">
-                            <img
-                              class="rounded-circle"
-                              width="40"
-                              src="../assets/images/users/3.jpg"
-                              alt="user"
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-original-title="Priyanka"
-                            />
-                          </li>
-                          <li class="assignee">
-                            <img
-                              class="rounded-circle"
-                              width="40"
-                              src="../assets/images/users/4.jpg"
-                              alt="user"
-                              data-toggle="tooltip"
-                              data-placement="top"
-                              title=""
-                              data-original-title="Selina"
-                            />
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <!-- card -->
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title mb-0">Progress Box</h4>
-                  <div class="mt-3">
-                    <div class="d-flex no-block align-items-center">
-                      <span>81% Clicks</span>
-                      <div class="ms-auto">
-                        <span>125</span>
-                      </div>
-                    </div>
-                    <div class="progress">
-                      <div
-                        class="progress-bar progress-bar-striped"
-                        role="progressbar"
-                        style="width: 81%"
-                        aria-valuenow="10"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="d-flex no-block align-items-center mt-4">
-                      <span>72% Uniquie Clicks</span>
-                      <div class="ms-auto">
-                        <span>120</span>
-                      </div>
-                    </div>
-                    <div class="progress">
-                      <div
-                        class="progress-bar progress-bar-striped bg-success"
-                        role="progressbar"
-                        style="width: 72%"
-                        aria-valuenow="25"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="d-flex no-block align-items-center mt-4">
-                      <span>53% Impressions</span>
-                      <div class="ms-auto">
-                        <span>785</span>
-                      </div>
-                    </div>
-                    <div class="progress">
-                      <div
-                        class="progress-bar progress-bar-striped bg-info"
-                        role="progressbar"
-                        style="width: 53%"
-                        aria-valuenow="50"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="d-flex no-block align-items-center mt-4">
-                      <span>3% Online Users</span>
-                      <div class="ms-auto">
-                        <span>8</span>
-                      </div>
-                    </div>
-                    <div class="progress">
-                      <div
-                        class="progress-bar progress-bar-striped bg-danger"
-                        role="progressbar"
-                        style="width: 3%"
-                        aria-valuenow="75"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- card new -->
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title mb-0">News Updates</h4>
-                </div>
-                <ul class="list-style-none">
-                  <li class="d-flex no-block card-body">
-                    <i class="mdi mdi-check-circle fs-4 w-30px mt-1"></i>
-                    <div>
-                      <a href="#" class="mb-0 font-medium p-0"
-                        >Lorem ipsum dolor sit amet, consectetur adipiscing
-                        elit.</a
-                      >
-                      <span class="text-muted"
-                        >dolor sit amet, consectetur adipiscing</span
-                      >
-                    </div>
-                    <div class="ms-auto">
-                      <div class="tetx-right">
-                        <h5 class="text-muted mb-0">20</h5>
-                        <span class="text-muted font-16">Jan</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="d-flex no-block card-body border-top">
-                    <i class="mdi mdi-gift fs-4 w-30px mt-1"></i>
-                    <div>
-                      <a href="#" class="mb-0 font-medium p-0"
-                        >Congratulation Maruti, Happy Birthday</a
-                      >
-                      <span class="text-muted"
-                        >many many happy returns of the day</span
-                      >
-                    </div>
-                    <div class="ms-auto">
-                      <div class="tetx-right">
-                        <h5 class="text-muted mb-0">11</h5>
-                        <span class="text-muted font-16">Jan</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="d-flex no-block card-body border-top">
-                    <i class="mdi mdi-plus fs-4 w-30px mt-1"></i>
-                    <div>
-                      <a href="#" class="mb-0 font-medium p-0"
-                        >Maruti is a Responsive Admin theme</a
-                      >
-                      <span class="text-muted"
-                        >But already everything was solved. It will ...</span
-                      >
-                    </div>
-                    <div class="ms-auto">
-                      <div class="tetx-right">
-                        <h5 class="text-muted mb-0">19</h5>
-                        <span class="text-muted font-16">Jan</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="d-flex no-block card-body border-top">
-                    <i class="mdi mdi-leaf fs-4 w-30px mt-1"></i>
-                    <div>
-                      <a href="#" class="mb-0 font-medium p-0"
-                        >Envato approved Maruti Admin template</a
-                      >
-                      <span class="text-muted"
-                        >i am very happy to approved by TF</span
-                      >
-                    </div>
-                    <div class="ms-auto">
-                      <div class="tetx-right">
-                        <h5 class="text-muted mb-0">20</h5>
-                        <span class="text-muted font-16">Jan</span>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="d-flex no-block card-body border-top">
-                    <i
-                      class="mdi mdi-comment-question-outline fs-4 w-30px mt-1"
-                    ></i>
-                    <div>
-                      <a href="#" class="mb-0 font-medium p-0">
-                        I am alwayse here if you have any question</a
-                      >
-                      <span class="text-muted"
-                        >we glad that you choose our template</span
-                      >
-                    </div>
-                    <div class="ms-auto">
-                      <div class="tetx-right">
-                        <h5 class="text-muted mb-0">15</h5>
-                        <span class="text-muted font-16">Jan</span>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!-- column -->
 
-            <div class="col-lg-6">
-              <!-- Card -->
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Chat Option</h4>
-                  <div class="chat-box scrollable" style="height: 475px">
-                    <!--chat Row -->
-                    <ul class="chat-list">
-                      <!--chat Row -->
-                      <li class="chat-item">
-                        <div class="chat-img">
-                          <img src="../assets/images/users/1.jpg" alt="user" />
-                        </div>
-                        <div class="chat-content">
-                          <h6 class="font-medium">James Anderson</h6>
-                          <div class="box bg-light-info">
-                            Lorem Ipsum is simply dummy text of the printing
-                            &amp; type setting industry.
-                          </div>
-                        </div>
-                        <div class="chat-time">10:56 am</div>
-                      </li>
-                      <!--chat Row -->
-                      <li class="chat-item">
-                        <div class="chat-img">
-                          <img src="../assets/images/users/2.jpg" alt="user" />
-                        </div>
-                        <div class="chat-content">
-                          <h6 class="font-medium">Bianca Doe</h6>
-                          <div class="box bg-light-info">
-                            It’s Great opportunity to work.
-                          </div>
-                        </div>
-                        <div class="chat-time">10:57 am</div>
-                      </li>
-                      <!--chat Row -->
-                      <li class="odd chat-item">
-                        <div class="chat-content">
-                          <div class="box bg-light-inverse">
-                            I would love to join the team.
-                          </div>
-                          <br />
-                        </div>
-                      </li>
-                      <!--chat Row -->
-                      <li class="odd chat-item">
-                        <div class="chat-content">
-                          <div class="box bg-light-inverse">
-                            Whats budget of the new project.
-                          </div>
-                          <br />
-                        </div>
-                        <div class="chat-time">10:59 am</div>
-                      </li>
-                      <!--chat Row -->
-                      <li class="chat-item">
-                        <div class="chat-img">
-                          <img src="../assets/images/users/3.jpg" alt="user" />
-                        </div>
-                        <div class="chat-content">
-                          <h6 class="font-medium">Angelina Rhodes</h6>
-                          <div class="box bg-light-info">
-                            Well we have good budget for the project
-                          </div>
-                        </div>
-                        <div class="chat-time">11:00 am</div>
-                      </li>
-                      <!--chat Row -->
-                    </ul>
-                  </div>
-                </div>
-                <div class="card-body border-top">
-                  <div class="row">
-                    <div class="col-9">
-                      <div class="input-field mt-0 mb-0">
-                        <textarea
-                          id="textarea1"
-                          placeholder="Type and enter"
-                          class="form-control border-0"
-                        ></textarea>
-                      </div>
-                    </div>
-                    <div class="col-3">
-                      <a
-                        class="btn-circle btn-lg btn-cyan float-end text-white"
-                        href="javascript:void(0)"
-                        ><i class="mdi mdi-send fs-3"></i
-                      ></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- card -->
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Our partner (Box with Fix height)</h4>
-                </div>
-                <div
-                  class="comment-widgets scrollable"
-                  style="max-height: 130px"
-                >
-                  <!-- Comment Row -->
-                  <div class="d-flex flex-row comment-row mt-0">
-                    <div class="p-2">
-                      <img
-                        src="../assets/images/users/1.jpg"
-                        alt="user"
-                        width="50"
-                        class="rounded-circle"
-                      />
-                    </div>
-                    <div class="comment-text w-100">
-                      <h6 class="font-medium">James Anderson</h6>
-                      <span class="mb-3 d-block"
-                        >Lorem Ipsum is simply dummy text of the printing and
-                        type setting industry.
+          <!-- Cards -->
+          <!-- <div class="row">
+            <div class="col-md-3">
+              <div class="card mt-0">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="peity_line_neutral left text-center mt-2">
+                      <span
+                        ><span style="display: none">10,15,8,14,13,10,10</span>
+                        <canvas width="50" height="24"></canvas>
                       </span>
-                      <div class="comment-footer">
-                        <span class="text-muted float-end">April 14, 2021</span>
-                        <button
-                          type="button"
-                          class="btn btn-cyan btn-sm text-white"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-success btn-sm text-white"
-                        >
-                          Publish
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-danger btn-sm text-white"
-                        >
-                          Delete
-                        </button>
-                      </div>
+                      <h6>10%</h6>
                     </div>
                   </div>
-                  <!-- Comment Row -->
-                  <div class="d-flex flex-row comment-row">
-                    <div class="p-2">
-                      <img
-                        src="../assets/images/users/4.jpg"
-                        alt="user"
-                        width="50"
-                        class="rounded-circle"
-                      />
-                    </div>
-                    <div class="comment-text active w-100">
-                      <h6 class="font-medium">Michael Jorden</h6>
-                      <span class="mb-3 d-block"
-                        >Lorem Ipsum is simply dummy text of the printing and
-                        type setting industry.
-                      </span>
-                      <div class="comment-footer">
-                        <span class="text-muted float-end">May 10, 2021</span>
-                        <button
-                          type="button"
-                          class="btn btn-cyan btn-sm text-white"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-success btn-sm text-white"
-                        >
-                          Publish
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-danger btn-sm text-white"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Comment Row -->
-                  <div class="d-flex flex-row comment-row">
-                    <div class="p-2">
-                      <img
-                        src="../assets/images/users/5.jpg"
-                        alt="user"
-                        width="50"
-                        class="rounded-circle"
-                      />
-                    </div>
-                    <div class="comment-text w-100">
-                      <h6 class="font-medium">Johnathan Doeting</h6>
-                      <span class="mb-3 d-block"
-                        >Lorem Ipsum is simply dummy text of the printing and
-                        type setting industry.
-                      </span>
-                      <div class="comment-footer">
-                        <span class="text-muted float-end">August 1, 2021</span>
-                        <button
-                          type="button"
-                          class="btn btn-cyan btn-sm text-white"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-success btn-sm text-white"
-                        >
-                          Publish
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-danger btn-sm text-white"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- accoridan part -->
-              <div class="accordion" id="accordionExample">
-                <div class="card mb-0">
-                  <div class="card-header" id="headingOne">
-                    <h5 class="mb-0">
-                      <a
-                        class="d-flex align-items-center"
-                        data-toggle="collapse"
-                        data-target="#collapseOne"
-                        aria-expanded="true"
-                        aria-controls="collapseOne"
-                      >
-                        <i
-                          class="me-1 mdi mdi-magnet fs-4"
-                          aria-hidden="true"
-                        ></i>
-                        <span>Accordion Example 1</span>
-                      </a>
-                    </h5>
-                  </div>
-                  <div
-                    id="collapseOne"
-                    class="collapse show"
-                    aria-labelledby="headingOne"
-                    data-parent="#accordionExample"
-                  >
-                    <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life
-                      accusamus terry richardson ad squid. 3 wolf moon officia
-                      aute, non cupidatat skateboard dolor brunch. Food truck
-                      quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
-                      tempor, sunt aliqua put a bird on it squid single-origin
-                      coffee nulla assumenda shoreditch et. Nihil anim keffiyeh
-                      helvetica, craft beer labore wes anderson cred nesciunt
-                      sapiente ea proident. Ad vegan excepteur butcher vice
-                      lomo. Leggings occaecat craft beer farm-to-table, raw
-                      denim aesthetic synth nesciunt you probably haven't heard
-                      of them accusamus labore sustainable VHS.
-                    </div>
-                  </div>
-                </div>
-                <div class="card mb-0 border-top">
-                  <div class="card-header" id="headingTwo">
-                    <h5 class="mb-0">
-                      <a
-                        class="collapsed d-flex align-items-center"
-                        data-toggle="collapse"
-                        data-target="#collapseTwo"
-                        aria-expanded="false"
-                        aria-controls="collapseTwo"
-                      >
-                        <i
-                          class="me-1 mdi mdi-magnet fs-4"
-                          aria-hidden="true"
-                        ></i>
-                        <span>Accordion Example 2</span>
-                      </a>
-                    </h5>
-                  </div>
-                  <div
-                    id="collapseTwo"
-                    class="collapse"
-                    aria-labelledby="headingTwo"
-                    data-parent="#accordionExample"
-                  >
-                    <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life
-                      accusamus terry richardson ad squid. 3 wolf moon officia
-                      aute, non cupidatat skateboard dolor brunch. Food truck
-                      quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
-                      tempor, sunt aliqua put a bird on it squid single-origin
-                      coffee nulla assumenda shoreditch et. Nihil anim keffiyeh
-                      helvetica, craft beer labore wes anderson cred nesciunt
-                      sapiente ea proident. Ad vegan excepteur butcher vice
-                      lomo. Leggings occaecat craft beer farm-to-table, raw
-                      denim aesthetic synth nesciunt you probably haven't heard
-                      of them accusamus labore sustainable VHS.
-                    </div>
-                  </div>
-                </div>
-                <div class="card mb-0 border-top">
-                  <div class="card-header" id="headingThree">
-                    <h5 class="mb-0">
-                      <a
-                        class="collapsed d-flex align-items-center"
-                        data-toggle="collapse"
-                        data-target="#collapseThree"
-                        aria-expanded="false"
-                        aria-controls="collapseThree"
-                      >
-                        <i
-                          class="me-1 mdi mdi-magnet fs-4"
-                          aria-hidden="true"
-                        ></i>
-                        <span>Accordion Example 3</span>
-                      </a>
-                    </h5>
-                  </div>
-                  <div
-                    id="collapseThree"
-                    class="collapse"
-                    aria-labelledby="headingThree"
-                    data-parent="#accordionExample"
-                  >
-                    <div class="card-body">
-                      Anim pariatur cliche reprehenderit, enim eiusmod high life
-                      accusamus terry richardson ad squid. 3 wolf moon officia
-                      aute, non cupidatat skateboard dolor brunch. Food truck
-                      quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
-                      tempor, sunt aliqua put a bird on it squid single-origin
-                      coffee nulla assumenda shoreditch et. Nihil anim keffiyeh
-                      helvetica, craft beer labore wes anderson cred nesciunt
-                      sapiente ea proident. Ad vegan excepteur butcher vice
-                      lomo. Leggings occaecat craft beer farm-to-table, raw
-                      denim aesthetic synth nesciunt you probably haven't heard
-                      of them accusamus labore sustainable VHS.
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- toggle part -->
-              <div id="accordian-4">
-                <div class="card mt-4">
-                  <a
-                    class="card-header link"
-                    data-toggle="collapse"
-                    data-parent="#accordian-4"
-                    href="#Toggle-1"
-                    aria-expanded="true"
-                    aria-controls="Toggle-1"
-                  >
-                    <i
-                      class="seticon mdi mdi-arrow-right-bold"
-                      aria-hidden="true"
-                    ></i>
-                    <span>Toggle, Open by default</span>
-                  </a>
-                  <div id="Toggle-1" class="collapse show multi-collapse">
-                    <div class="card-body widget-content">
-                      This box is opened by default, paragraphs and is full of
-                      waffle to pad out the comment. Usually, you just wish
-                      these sorts of comments would come to an end.
-                    </div>
-                  </div>
-                  <a
-                    class="card-header link border-top"
-                    data-toggle="collapse"
-                    data-parent="#accordian-4"
-                    href="#Toggle-2"
-                    aria-expanded="false"
-                    aria-controls="Toggle-2"
-                  >
-                    <i class="seticon mdi mdi-close" aria-hidden="true"></i>
-                    <span>Toggle, Closed by default</span>
-                  </a>
-                  <div id="Toggle-2" class="multi-collapse collapse">
-                    <div class="card-body widget-content">
-                      This box is now open
-                    </div>
-                  </div>
-                  <a
-                    class="card-header collapsed link border-top"
-                    data-toggle="collapse"
-                    data-parent="#accordian-4"
-                    href="#Toggle-3"
-                    aria-expanded="false"
-                    aria-controls="Toggle-3"
-                  >
-                    <i class="seticon mdi mdi-close" aria-hidden="true"></i>
-                    <span>Toggle, Closed by default</span>
-                  </a>
-                  <div id="Toggle-3" class="collapse multi-collapse">
-                    <div class="card-body widget-content">
-                      This box is now open
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- Tabs -->
-              <div class="card">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist">
-                  <li class="nav-item">
-                    <a
-                      class="nav-link active"
-                      data-bs-toggle="tab"
-                      href="#home"
-                      role="tab"
-                      ><span class="hidden-sm-up"></span>
-                      <span class="hidden-xs-down">Tab1</span></a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      data-bs-toggle="tab"
-                      href="#profile"
-                      role="tab"
-                      ><span class="hidden-sm-up"></span>
-                      <span class="hidden-xs-down">Tab2</span></a
-                    >
-                  </li>
-                  <li class="nav-item">
-                    <a
-                      class="nav-link"
-                      data-bs-toggle="tab"
-                      href="#messages"
-                      role="tab"
-                      ><span class="hidden-sm-up"></span>
-                      <span class="hidden-xs-down">Tab3</span></a
-                    >
-                  </li>
-                </ul>
-                <!-- Tab panes -->
-                <div class="tab-content tabcontent-border">
-                  <div class="tab-pane active" id="home" role="tabpanel">
-                    <div class="p-20">
-                      <p>
-                        And is full of waffle to It has multiple paragraphs and
-                        is full of waffle to pad out the comment. Usually, you
-                        just wish these sorts of comments would come to an
-                        end.multiple paragraphs and is full of waffle to pad out
-                        the comment..
-                      </p>
-                      <img
-                        src="../assets/images/background/img4.jpg"
-                        class="img-fluid"
-                      />
-                    </div>
-                  </div>
-                  <div class="tab-pane p-20" id="profile" role="tabpanel">
-                    <div class="p-20">
-                      <img
-                        src="../assets/images/background/img4.jpg"
-                        class="img-fluid"
-                      />
-                      <p class="mt-2">
-                        And is full of waffle to It has multiple paragraphs and
-                        is full of waffle to pad out the comment. Usually, you
-                        just wish these sorts of comments would come to an
-                        end.multiple paragraphs and is full of waffle to pad out
-                        the comment..
-                      </p>
-                    </div>
-                  </div>
-                  <div class="tab-pane p-20" id="messages" role="tabpanel">
-                    <div class="p-20">
-                      <p>
-                        And is full of waffle to It has multiple paragraphs and
-                        is full of waffle to pad out the comment. Usually, you
-                        just wish these sorts of comments would come to an
-                        end.multiple paragraphs and is full of waffle to pad out
-                        the comment..
-                      </p>
-                      <img
-                        src="../assets/images/background/img4.jpg"
-                        class="img-fluid"
-                      />
-                    </div>
+                  <div class="col-md-6 border-left text-center pt-2">
+                    <h3 class="mb-0 fw-bold">150</h3>
+                    <span class="text-muted">New Users</span>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- ============================================================== -->
-          <!-- Recent comment and chats -->
-          <!-- ============================================================== -->
+            <div class="col-md-3">
+              <div class="card mt-0">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="peity_bar_bad left text-center mt-2">
+                      <span
+                        ><span style="display: none">3,5,6,16,8,10,6</span>
+                        <canvas width="50" height="24"></canvas>
+                      </span>
+                      <h6>-40%</h6>
+                    </div>
+                  </div>
+                  <div class="col-md-6 border-left text-center pt-2">
+                    <h3 class="mb-0 fw-bold">4560</h3>
+                    <span class="text-muted">Orders</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card mt-0">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="peity_line_good left text-center mt-2">
+                      <span
+                        ><span style="display: none">12,6,9,23,14,10,17</span>
+                        <canvas width="50" height="24"></canvas>
+                      </span>
+                      <h6>+60%</h6>
+                    </div>
+                  </div>
+                  <div class="col-md-6 border-left text-center pt-2">
+                    <h3 class="mb-0">5672</h3>
+                    <span class="text-muted">Active Users</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card mt-0">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="peity_bar_good left text-center mt-2">
+                      <span>12,6,9,23,14,10,13</span>
+                      <h6>+30%</h6>
+                    </div>
+                  </div>
+                  <div class="col-md-6 border-left text-center pt-2">
+                    <h3 class="mb-0 fw-bold">2560</h3>
+                    <span class="text-muted">Register</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <!-- End cards -->
+          
         </div>
         <!-- ============================================================== -->
         <!-- End Container fluid  -->
@@ -1267,27 +508,35 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../assets/libs/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-    <script src="../assets/extra-libs/sparkline/sparkline.js"></script>
-    <!--Wave Effects -->
-    <script src="../dist/js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="../dist/js/sidebarmenu.js"></script>
-    <!--Custom JavaScript -->
-    <script src="../dist/js/custom.min.js"></script>
-    <!--This page JavaScript -->
-    <!-- <script src="../dist/js/pages/dashboards/dashboard1.js"></script> -->
-    <!-- Charts js Files -->
-    <script src="../assets/libs/flot/excanvas.js"></script>
-    <script src="../assets/libs/flot/jquery.flot.js"></script>
-    <script src="../assets/libs/flot/jquery.flot.pie.js"></script>
-    <script src="../assets/libs/flot/jquery.flot.time.js"></script>
-    <script src="../assets/libs/flot/jquery.flot.stack.js"></script>
-    <script src="../assets/libs/flot/jquery.flot.crosshair.js"></script>
-    <script src="../assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-    <script src="../dist/js/pages/chart/chart-page-init.js"></script>
+   <!-- Modal -->
+  <div class="modal fade" id="modaldatos" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Datos detallados</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div id="divdatos" class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+      </div>
+    </div>
+  </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- datatables -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
   </body>
 </html>
+<!--This page JavaScript -->
+<script src="scripts/dashboard.js"></script>
+<?php ob_end_flush(); ?>
+

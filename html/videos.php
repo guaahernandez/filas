@@ -1,6 +1,9 @@
 <?php 
 ob_start();
-include 'header.php' 
+include 'header.php';
+ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL); 
 ?>
       <!-- ============================================================== -->
       <!-- Page wrapper  -->
@@ -57,6 +60,7 @@ include 'header.php'
                                     <th>Descripción</th>
                                     <th>Ver</th>
                                     <th>Ult.Modif</th>
+                                    <th>Formato Vid</th>
                                 </tr>
                             </thead>
                             
@@ -69,6 +73,7 @@ include 'header.php'
                                     <th>Descripción</th>
                                     <th>Ver</th>
                                     <th>Ult.Modif</th>
+                                    <th>Formato Vid</th>
                                 </tr>
                             </tfoot>
                             </table>
@@ -80,7 +85,7 @@ include 'header.php'
                         <div class="card-body">
                             <h5 class="card-title">Agregar video</h5>
                             <div class="table-responsive">
-                                <form action="" name="formulario" id="formulario" method="POST">
+                                <form action="" name="formulario" id="formulario" method="POST" enctype="multipart/form-data">
                                     <div class="form-group">
                                     <label for="agenci">Agencia</label>
                                     <input class="form-control" type="hidden" name="codigo" id="codigo">
@@ -96,17 +101,29 @@ include 'header.php'
                                         <input class="form-control" type="text" name="descri" id="descri">
                                     </div>
                                     <div class="form-group">
-                                    <label for="estado">Estado</label>
-                                    <select class="form-control" name="estado" id="estado">
-                                        <option value="0">Inactivo</option>
-                                        <option value="1">Activo</option>
-                                    </select>
+                                      <label for="estado">Formato Video</label>
+                                      <select class="form-control" name="format" id="format">
+                                          <option value="vertical">Vertical</option>
+                                          <option value="horizontal">Horizontal</option>
+                                      </select>
                                     </div>
+                                    <!-- <div class="form-group">
+                                      <label for="estado">Estado</label>
+                                      <select class="form-control" name="estado" id="estado">
+                                          <option value="0">Inactivo</option>
+                                          <option value="1">Activo</option>
+                                      </select>
+                                    </div> -->
                                     <div class="form-group">
                                     <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i>  Guardar</button>
 
-                                    <button class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
+                                    <button class="btn btn-danger" id="btnCancelar" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
+                                    <div align="center" id="subiendo" style="display: none;">
+                                      <label>Subiendo video, espere por favor  </label>
+                                      <img src="../assets/images/proc.gif">
                                     </div>
+                                    </div>
+                                    
                                 </form>
                             </div>
                         </div>

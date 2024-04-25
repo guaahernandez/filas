@@ -43,6 +43,30 @@ public function listar($ubmenu){
 	return ejecutarConsulta($sql);
 }
 
+public function opmenu_enc($nombre){
+	$sql="SELECT * FROM opmenu_enc WHERE agenci in ('00','".$_SESSION["agenci"]."') and nombre='$nombre' and estado=1";
+	//echo $sql;
+	return ejecutarConsultaSimpleFila($sql);
+}
+
+public function opmenu_det($ubmenu){
+	$sql="SELECT * FROM opmenu_det WHERE agenci in ('00','".$_SESSION["agenci"]."') and ubmenu='$ubmenu' and estado=1 order by ordenm";
+	//echo $sql;
+	return ejecutarConsulta($sql);
+}
+
+//listar vendedores
+public function listar_v($agenci, $nombre){
+	$sql="SELECT b.`nombc03`, IFNULL(i.`nombl03`,b.`nombl03`)nombl03, b.`agent03`, IF(IFNULL(i.imagen,'')='','guaca.jpg',i.imagen)imagen, IFNULL(i.`activo`,1)activ, IFNULL(i.gc,0)gc, b.local FROM 
+	xama.`cias_vendedores` b
+	inner JOIN xama.`cias_vendedores_img` i ON i.`nombc03`=b.`nombc03`
+	WHERE i.sucur03='$agenci' AND i.logue03=1";
+	$sql .= " HAVING activ=1";
+	$sql .= ($nombre=='guacaclub') ? " and gc=1": " /*and gc!=1*/ and b.local=0";	
+	//echo $sql;
+	return ejecutarConsulta($sql);
+}
+
 //listar y mostrar en selct
 public function select(){
 	$sql="SELECT * FROM opcmenu where estado = 1";
@@ -51,6 +75,11 @@ public function select(){
 
 public function getdirecc($codigo){
 	$sql="SELECT direcc FROM opcmenu where codigo='$codigo'";		
+	return ejecutarConsultaSimpleFila($sql);
+}
+
+public function getpromo(){
+	$sql="SELECT link FROM app_guacaclub.applinks where descripcion='Promociones'";		
 	return ejecutarConsultaSimpleFila($sql);
 }
 

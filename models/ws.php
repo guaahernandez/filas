@@ -4,7 +4,7 @@ function getcias(){
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
-    CURLOPT_URL => 'http://localhost/wsecom/',
+    CURLOPT_URL => 'http://ws.laguacamaya.cr:13565/wsecom/',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -12,7 +12,7 @@ function getcias(){
     CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'POST',
-    CURLOPT_POSTFIELDS => array('key' => 'test2021','metodo' => 'cias_filas')
+    CURLOPT_POSTFIELDS => array('key' => 'tester2024','metodo' => 'cias_filas')
     ));
 
     $response = curl_exec($curl);

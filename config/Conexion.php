@@ -26,6 +26,13 @@ if (!function_exists('ejecutarConsulta')) {
 		return $row;
 	}
 
+	function existe($sql){
+		global $conexion;
+		$query=$conexion->query($sql);
+		$row=$query->fetch_assoc();
+		return ($row) ? 1:0;
+	}
+
 	function ejecutarConsultaConsec($sql){
 		global $conexion;
 		$query=$conexion->query($sql);

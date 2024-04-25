@@ -16,7 +16,7 @@ $cias=Array();
 switch ($_GET["op"]) {
 	case 'guardaryeditar':
         if (empty($codigo)) {
-            $rspta=$model->insertar($agenci,$texto,$usuari);
+            $rspta=$model->insertar($agenci,$texto,$usuari, $estado);
             echo $rspta ? "Datos registrados correctamente" : "No se pudo registrar los datos";
         }else{
             $rspta=$model->editar($agenci, $codigo, $texto, $usuari, $estado);
@@ -62,18 +62,18 @@ switch ($_GET["op"]) {
 		break;
         
         case 'gettexto':
-            $rspta=$model->gettexto($_SESSION["ntexto"]);
-			if($rspta){
-				//$_SESSION["texto"] = $rspta["texto"];
-				echo $rspta["texto"];
-				$_SESSION["ntexto"] = $rspta["codigo"];
-			}else{
-				$_SESSION["ntexto"] = 0;
-				$rspta=$model->gettexto($_SESSION["texto"]);
-				//$_SESSION["texto"] = $rspta["texto"];
-				echo $rspta["texto"];
-				$_SESSION["ntexto"] = $rspta["codigo"];
-			}
+			$rspta=$model->gettexto();
+			echo $rspta["texto"];
+            // $rspta=$model->gettexto($_SESSION["ntexto"]);
+			// if($rspta){
+			// 	echo $rspta["texto"];
+			// 	$_SESSION["ntexto"] = $rspta["codigo"];
+			// }else{
+			// 	$_SESSION["ntexto"] = 0;
+			// 	$rspta=$model->gettexto($_SESSION["texto"]);
+			// 	echo $rspta["texto"];
+			// 	$_SESSION["ntexto"] = $rspta["codigo"];
+			// }
 		    
             break;
 

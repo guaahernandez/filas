@@ -66,6 +66,7 @@ public function cantidad_usuario(){
 		$sql.=" FROM usuarios u INNER JOIN tipousuario tu ON u.idtipousuario=tu.idtipousuario";
 		$sql.=" LEFT JOIN cias d ON d.iddepartamento=u.`iddepartamento`";
 		$sql.=" WHERE login='$login' AND password='$clave' AND u.estado='1'"; 
+		echo $sql;
     	return ejecutarConsulta($sql);  
     }
 }

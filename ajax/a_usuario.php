@@ -34,10 +34,10 @@ switch ($_GET["op"]) {
 			 {
 
 			   $imagen = round(microtime(true)).'.'. end($ext);
-				move_uploaded_file($_FILES["imagen"]["tmp_name"], "../files/usuarios/" . $imagen);
+				move_uploaded_file($_FILES["imagen"]["tmp_name"], "../assets/usuarios/" . $imagen);
 		 	}
 		}
-
+		
 		//Hash SHA256 para la contraseña
 		$clavehash=hash("SHA256", $password);
 
@@ -127,20 +127,21 @@ switch ($_GET["op"]) {
 		if (isset($fetch)) 
 		{
 			# Declaramos la variables de sesion
-			$_SESSION['idusuario']=$fetch->idusuario;
+			$_SESSION['cftidusuario']=$fetch->idusuario;
 			$id=$fetch->idusuario;
-			$_SESSION['nombre']=$fetch->nombre;
-			$_SESSION['codigo_persona']=$fetch->codigo_persona;
-			($fetch->imagen!='') ? $_SESSION['imagen']=$fetch->imagen : $_SESSION["imagen"]='user.png' ;
-			$_SESSION['login']=$fetch->login;
-			$_SESSION['tipousuario']=$fetch->tipousuario;
-			$_SESSION['departamento']=$fetch->iddepartamento;
-			$_SESSION['departamento_name']=$fetch->departamento;
+			$_SESSION['cftnombre']=$fetch->nombre;
+			$_SESSION['cftcodigo_persona']=$fetch->codigo_persona;
+			($fetch->imagen!='') ? $_SESSION['cftimagen']=$fetch->imagen : $_SESSION["cftimagen"]='user.png' ;
+			$_SESSION['cftlogin']=$fetch->login;
+			$_SESSION['cfttipousuario']=$fetch->tipousuario;
+			$_SESSION['cftidtipousuario']=$fetch->idtipousuario;
+			$_SESSION['cftdepartamento']=$fetch->iddepartamento;
+			$_SESSION['cftdepartamento_name']=$fetch->departamento;
 
 			require "../config/Conexion.php";
 
 			$sql="UPDATE usuarios SET iteracion='1' WHERE idusuario='$id'";
-			echo $sql; 
+			//echo $sql; 
 	 		ejecutarConsulta($sql);	 		
 
 		}
@@ -151,7 +152,7 @@ switch ($_GET["op"]) {
 
 	case 'salir':
 			
-		$id=$_SESSION['idusuario'];
+		$id=$_SESSION['cftidusuario'];
 		$sql="UPDATE usuarios SET iteracion='0' WHERE idusuario='$id'";
 		echo $sql; 
 		ejecutarConsulta($sql);	 	

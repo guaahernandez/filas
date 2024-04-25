@@ -17,7 +17,8 @@ function limpiar(){
 	$("#direcc").val("");
     $("#estado").val(""); 
     $("#videoa").val(""); 
-    $("#descri").val(""); 
+    $("#descri").val("");
+	$("#format").val(""); 
 }
  
 //funcion mostrar formulario
@@ -27,7 +28,9 @@ function mostrarform(flag){
 		$("#listadoregistros").hide();
 		$("#formularioregistros").show();
 		$("#btnGuardar").prop("disabled",false);
+		$("#btnCancelar").prop("disabled",false);
 		$("#btnagregar").hide();
+		$("#subiendo").hide();
 	}else{
 		$("#listadoregistros").show();
 		$("#formularioregistros").hide();
@@ -87,6 +90,8 @@ function listar(){
 function guardaryeditar(e){
      e.preventDefault();//no se activara la accion predeterminada 
      $("#btnGuardar").prop("disabled",true);
+	 $("#btnCancelar").prop("disabled",true);
+	 $("#subiendo").show();
      var formData=new FormData($("#formulario")[0]);
 
      $.ajax({
@@ -97,7 +102,12 @@ function guardaryeditar(e){
      	processData: false,
 
      	success: function(datos){
-     		//bootbox.alert(datos);
+			Swal.fire({
+				title: "Procesado...",
+				position: 'top-end',
+				text: datos,
+				timer: 2000,
+				});
      		mostrarform(false);
      		tabla.ajax.reload();
      	}
@@ -121,31 +131,71 @@ function mostrar(codigo){
 			$("#videoa").val(data.direcc);
 			$("#estado").val(data.estado);
             $("#codigo").val(data.codigo);
+			$("#format").val(data.format);
 		})
 }
 
 
 //funcion para desactivar
 function desactivar(codigo){
-	bootbox.confirm({ message : '¿Esta seguro(a) de desactivar este dato?', closeButton : false, callback : function(result){
-		if (result) {
+	swal.fire({
+		title: "Este proceso desactiva el dato seleccionado",
+		text: "¿Desea continuar?",
+		icon: "info",
+  		showCancelButton: true,
+  		focusConfirm: false,
+		confirmButtonText: 'Continuar',
+		cancelButtonText: `Cancelar`,
+	})
+	.then((result) => {
+		if (result.isConfirmed) {
 			$.post("../ajax/a_videos.php?op=desactivar", {codigo : codigo}, function(e){
-				//bootbox.alert(e);
 				tabla.ajax.reload();
 			});
+		} else {
+			//swal("Proceso terminado", "Usuario", "success");
 		}
-	}});
+	});
 }
 
 function activar(codigo){
-	bootbox.confirm({message : "¿Esta seguro(a) de activar este dato?", closeButton : false , callback : function(result){
-		if (result) {
-			$.post("../ajax/a_videos.php?op=activar" , {codigo : codigo}, function(e){
-				//bootbox.alert(e);
+	swal.fire({
+		title: "Este proceso activa el dato seleccionado",
+		text: "¿Desea continuar?",
+		icon: "info",
+		showCancelButton: true,
+		focusConfirm: false,
+	  confirmButtonText: 'Continuar',
+	  cancelButtonText: `Cancelar`,
+	})
+	.then((result) => {
+		if (result.isConfirmed) {
+			$.post("../ajax/a_videos.php?op=activar", {codigo : codigo}, function(e){
 				tabla.ajax.reload();
 			});
+		} else {
+			//swal("Proceso terminado", "Usuario", "success");
 		}
-	}});
+	});
+}
+
+function eliminar(codigo){
+	swal.fire({
+		title: "Este proceso elimina el video seleccionado",
+		text: "¿Desea continuar?",
+		icon: "error",
+		buttons: ["Cancelar", "Aceptar"],
+		dangerMode: true,
+	})
+	.then((willDelete) => {
+		if (willDelete) {
+			$.post("../ajax/a_videos.php?op=eliminar", {codigo : codigo}, function(e){
+				tabla.ajax.reload();
+			});
+		} else {
+			//swal("Proceso terminado", "Usuario", "success");
+		}
+	});
 }
 
 function getdirecc(codigo){

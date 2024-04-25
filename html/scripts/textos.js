@@ -37,7 +37,7 @@ function mostrarform(flag){
 function cancelarform(){
 	limpiar();
 	mostrarform(false);
-	tabla.column(1).visible(false);
+	//tabla.column(1).visible(false);
 	// tabla.column(3).visible(false);
 }
 
@@ -103,28 +103,27 @@ function guardaryeditar(e){
      limpiar();
 }
 
-function mostrar(codigo){
+function mostrar(id){
 	
-	$.post("../ajax/a_textos.php?op=mostrar",{codigo : codigo},
+	$.post("../ajax/a_textos.php?op=mostrar",{id : id},
 		function(data,status)
 		{
-			tabla.column(1).visible(true);
+			//tabla.column(1).visible(true);
 			// tabla.column(3).visible(true);
 			data=JSON.parse(data);
-			mostrarform(true);    
-			$("#agenci").val(data.agenci);			
+			mostrarform(true);    	
 			$("#estado").val(data.estado);
-            $("#codigo").val(data.codigo);
-			$("#texto").val(data.texto);
+            $("#tipo").val(data.tipo);
+			$("#nombre").val(data.nombre);
 		})
 }
 
 
 //funcion para desactivar
-function desactivar(codigo){
+function desactivar(id){
 	bootbox.confirm({ message : '¿Esta seguro(a) de desactivar este dato?', closeButton : false, callback : function(result){
 		if (result) {
-			$.post("../ajax/a_textos.php?op=desactivar", {codigo : codigo}, function(e){
+			$.post("../ajax/a_textos.php?op=desactivar", {id : id}, function(e){
 				//bootbox.alert(e);
 				tabla.ajax.reload();
 			});
@@ -132,10 +131,10 @@ function desactivar(codigo){
 	}});
 }
 
-function activar(codigo){
+function activar(id){
 	bootbox.confirm({message : "¿Esta seguro(a) de activar este dato?", closeButton : false , callback : function(result){
 		if (result) {
-			$.post("../ajax/a_textos.php?op=activar" , {codigo : codigo}, function(e){
+			$.post("../ajax/a_textos.php?op=activar" , {id : id}, function(e){
 				//bootbox.alert(e);
 				tabla.ajax.reload();
 			});

@@ -17,4 +17,5 @@ define("DB_PASSWORD", "argcmy@10!");
 //codificacion de caracteres
 define("DB_ENCODE", "utf8mb4");
 
+date_default_timezone_set('America/Costa_Rica');
  ?>

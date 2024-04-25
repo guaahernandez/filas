@@ -1,7 +1,8 @@
 <?php 
   include '../config/global_dat.php'; 
   session_start();
-  if (!isset($_SESSION['nombre'])) {
+  
+  if (!isset($_SESSION['cftnombre'])) {
     header("Location: login.html");
   }
 ?>
@@ -30,7 +31,7 @@
       href="../assets/images/favicon.png"
     />
     <!-- Custom CSS -->
-    <link href="../assets/libs/flot/css/float-chart.css" rel="stylesheet" />
+    <!-- <link href="../assets/libs/flot/css/float-chart.css" rel="stylesheet" /> -->
     <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet" />
     <!-- Bootstrap tether Core JavaScript -->
@@ -41,18 +42,19 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!-- <script src="scripts/side.js"></script> -->
   </head>
 
   <body>
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
-    <!-- <div class="preloader">
+    <div class="preloader">
       <div class="lds-ripple">
         <div class="lds-pos"></div>
         <div class="lds-pos"></div>
       </div>
-    </div> -->
+    </div>
     <!-- ============================================================== -->
     <!-- Main wrapper - style you can find in pages.scss -->
     <!-- ============================================================== -->
@@ -63,8 +65,7 @@
       data-sidebartype="full"
       data-sidebar-position="absolute"
       data-header-position="absolute"
-      data-boxed-layout="full"
-    >
+      data-boxed-layout="full">
       <!-- ============================================================== -->
       <!-- Topbar header - style you can find in pages.scss -->
       <!-- ============================================================== -->
@@ -74,7 +75,7 @@
             <!-- ============================================================== -->
             <!-- Logo -->
             <!-- ============================================================== -->
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="index.php">
               <!-- Logo icon -->
               <span class="logo-text ms-2">
                 <!-- dark Logo text -->
@@ -114,6 +115,12 @@
             <!-- ============================================================== -->
             <ul class="navbar-nav float-start me-auto">
               <li class="nav-item d-none d-lg-block">
+                <!-- <a
+                  class="nav-link sidebartoggler waves-effect waves-light"
+                  href="javascript:void(0)"
+                  data-sidebartype="mini-sidebar"
+                  ><i class="mdi mdi-menu font-24"></i
+                ></a> -->
                 <a
                   class="nav-link sidebartoggler waves-effect waves-light"
                   href="javascript:void(0)"
@@ -173,12 +180,12 @@
                   aria-expanded="false"
                 >
                   <img
-                    src="../assets/usuarios/<?php echo $_SESSION['imagen']; ?>"
+                    src="../assets/usuarios/<?php echo $_SESSION['cftimagen']; ?>"
                     alt="user"
                     class="rounded-circle"
                     width="31"
                   />
-                  <?php echo " ".$_SESSION['nombre'] ?>
+                  <?php echo " ".$_SESSION['cftnombre'] ?>
                 </a>
                 <ul
                   class="dropdown-menu dropdown-menu-end user-dd animated"
@@ -186,9 +193,9 @@
                 >
                   <div class="ps-4 p-10">
                     <p>
-                      <?php echo $_SESSION['nombre'] ?>
+                      <?php echo $_SESSION['cftnombre'] ?>
                     </p>
-                      <small><?=$_SESSION["departamento_name"]?></small>
+                      <small><?=$_SESSION["cftdepartamento_name"]?></small>
                                   
                   </div>
                   <a class="dropdown-item" href="../ajax/a_usuario.php?op=salir"
@@ -226,40 +233,73 @@
                   ><span class="hide-menu">Dashboard</span></a
                 >
               </li>
+
+              <?php if($_SESSION["cftidtipousuario"] != 4){ ?> <!--oculta opciones del menu -->
+                <li class="sidebar-item">
+                  <a
+                    class="sidebar-link waves-effect waves-dark sidebar-link"
+                    href="videos.php"
+                    aria-expanded="false"
+                    ><i class="mdi mdi-video-switch"></i
+                    ><span class="hide-menu">Videos</span></a
+                  >
+                </li>             
+                
+                <li class="sidebar-item">
+                  <a
+                    class="sidebar-link waves-effect waves-dark sidebar-link"
+                    href="usuario.php"
+                    aria-expanded="false"
+                    ><i class="mdi mdi-account-plus"></i
+                    ><span class="hide-menu">Usuarios</span></a
+                  >
+                </li>
+                
+                <li class="sidebar-item">
+                  <a
+                    class="sidebar-link waves-effect waves-dark sidebar-link"
+                    href="textos.php"
+                    aria-expanded="false"
+                    ><i class="mdi mdi-note-text"></i
+                    ><span class="hide-menu">Textos</span></a
+                  >
+                </li>
+                <li class="sidebar-item">
+                  <a
+                    class="sidebar-link waves-effect waves-dark sidebar-link"
+                    href="vendedor.php"
+                    aria-expanded="false"
+                    ><i class="mdi mdi-account-multiple"></i
+                    ><span class="hide-menu">Vendedores</span></a
+                  >
+                </li>
+                <li class="sidebar-item">
+                  <a
+                    class="sidebar-link waves-effect waves-dark sidebar-link"
+                    href="sedes.php"
+                    aria-expanded="false"
+                    ><i class="mdi mdi-crosshairs-gps"></i
+                    ><span class="hide-menu">Sedes</span></a
+                  >
+                </li>
+                <li class="sidebar-item">
+                  <a
+                    class="sidebar-link waves-effect waves-dark sidebar-link"
+                    href="informes.php"
+                    aria-expanded="false"
+                    ><i class="mdi mdi-clipboard-text"></i
+                    ><span class="hide-menu">Informes</span></a
+                  >
+                </li>
+              <?php } ?>
+
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="videos.php"
-                  aria-expanded="false"
-                  ><i class="mdi mdi-video-switch"></i
-                  ><span class="hide-menu">Videos</span></a
-                >
-              </li>
-              <li class="sidebar-item">
-                <a
-                  class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="usuario.php"
-                  aria-expanded="false"
-                  ><i class="mdi mdi-account"></i
-                  ><span class="hide-menu">Usuarios</span></a
-                >
-              </li>
-              <li class="sidebar-item">
-                <a
-                  class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="textos.php"
-                  aria-expanded="false"
-                  ><i class="mdi mdi-note-text"></i
-                  ><span class="hide-menu">Textos</span></a
-                >
-              </li>
-              <li class="sidebar-item">
-                <a
-                  class="sidebar-link waves-effect waves-dark sidebar-link"
-                  href="kiosco.php"
+                  href="kioscoh.php"
                   aria-expanded="false"
                   ><i class="mdi mdi-monitor"></i
-                  ><span class="hide-menu">Kiosko</span></a
+                  ><span class="hide-menu">Kiosco</span></a
                 >
               </li>
               <li class="sidebar-item">
@@ -269,6 +309,34 @@
                   aria-expanded="false"
                   ><i class="mdi mdi-monitor"></i
                   ><span class="hide-menu">Pantallas</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="kioscov.php"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-monitor"></i
+                  ><span class="hide-menu">KioscoV</span></a
+                >
+              </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="pantentregas.php"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-monitor"></i
+                  ><span class="hide-menu">Entregas</span></a
+                >
+              </li>
+
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="visor.php"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-monitor"></i
+                  ><span class="hide-menu">Visor Videos</span></a
                 >
               </li>
               <!-- <li class="sidebar-item">

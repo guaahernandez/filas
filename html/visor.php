@@ -1,0 +1,380 @@
+<?php 
+include '../config/global_dat.php'; 
+session_start();
+$_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "192.168.56.1";
+//$_SESSION["im"] = (isset($_GET["im"])) ? $_GET["im"] : "EPSON TM-T88V Receipt";
+$_SESSION["agenci"] = (isset($_GET["ag"])) ? $_GET["ag"] : "1";//ver si cuando se carga en aplic envia la agencia
+$_SESSION["formatovideo"] = "vertical";
+?>
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="keywords"
+      content="control filas la guaca"
+    />
+    <meta
+      name="description"
+      content=<?=PRO_DESCRIP ?>
+    />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>CMS | <?=PRO_NOMBRE?></title>
+    <!-- Favicon icon -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../assets/images/favicon.png"
+    />
+
+<style>
+    @font-face {
+        font-family: 'Futura';
+        src: url('../assets/fuentes/Futura_Extra_Black_Italic.otf');
+    }
+    @font-face {
+        font-family: 'Futurabold';
+        src: url('../assets/fuentes/Futura_Bold_font.ttf');
+    }
+    .ex1 {
+        width: 990px;
+        height: 85px;
+        margin: 0;
+        padding: 0;
+        background-color: #0f3e7f; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: solid 5px #fe2312;       
+    }
+
+    .ex2 {
+        width: 34px;
+        height: 85px;
+        margin: 0;
+        padding: 0;
+        background-color: #fe2312;        
+    }
+
+    .ancho{
+        width: 1024px;
+    }  
+    .anchoa{
+        width: 99%;
+    }   
+
+    .slide {
+        width: 384px;
+        height: 683px;
+        background-color: #f6f7fb;
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        }
+    .panel {
+        background-color: #f6f7fb;
+        width: 640px; 
+        }
+
+.titulo {
+  margin-left: 0px;
+  margin-top: 35px;
+  font-family: 'Futura', Arial, Helvetica, sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  font-stretch: normal;
+  line-height: 1.27;
+  letter-spacing: normal;
+  color: #0f3e7f;
+}
+
+.subtitulo {
+    margin-left: 0px;
+    margin-bottom: 25px;
+    font-family: 'Futura', Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: italic;
+    line-height: 2.54;
+    letter-spacing: normal;
+    color: #3d3d3d;
+}
+
+.Mask {
+  width: 110px;
+  height: 128px;
+  margin-left: 0px;
+  margin-bottom: 25px;
+  border-radius: 20px;
+  border: solid 1px #0f3e7f;
+  color: #0f3e7f;
+  background-color: #fff;
+}
+
+.Masknull {
+  width: 110px;
+  height: 128px;
+  margin-left: 0px;
+  margin-bottom: 25px;
+}
+
+.Mask:hover{
+  background-color: #0f3e7f;
+  color: #fff;
+}
+
+.Oval {
+  width: 55px;
+  height: 55px;
+  margin: 10px 27.5px 0px 27.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 3px #fe2312;
+  background-color: #f6f7fb;
+  border-radius: 64.5px;
+}
+
+.imgOval{
+  width: 25px;
+}
+
+.tituloMask {
+  /* margin-top: 17px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36.5px;
+  font-family: 'Futura', Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 900;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: center;
+  /* color: #0f3e7f; */
+}
+
+.menupref {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Futura', Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #c0c0c0;
+}
+
+.select {
+  width: 110px;
+  height: 25px;
+  background-color: #fe2312;
+  font-family: Futurabold;
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: 1px;
+  color: #fff;
+  border-bottom-left-radius: 19px;
+  border-bottom-right-radius: 19px;
+  margin-left: -1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.titulofoot {
+  font-family: 'Futura', Arial, Helvetica, sans-serif;
+  font-size: 8px;
+  font-weight: 900;
+  font-stretch: normal;
+  font-style: italic;
+  line-height: 2.67;
+  letter-spacing: normal;
+  color: #0f3e7f;
+}
+
+.imgfoot{
+  width: 30px;
+}
+
+.titulofoot:hover{
+    background-color: #ffe8e8;
+}
+
+/**botones pequeños */
+.MaskP {
+  width: 110px;
+  height: 128px;
+  margin-left: 0px;
+  margin-bottom: 25px;
+  border-radius: 20px;
+  border: solid 1px #0f3e7f;
+  color: #0f3e7f;
+  background-color: #fff;
+}
+
+.MaskP:hover{
+  background-color: #0f3e7f;
+  color: #fff;
+}
+.MasknullP {
+  width: 110px;
+  height: 128px;
+  margin-left: 0px;
+  margin-bottom: 25px;
+}
+
+.OvalP {
+  width: 55px;
+  height: 55px;
+  margin: 10px 27.5px 0px 27.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 3px #fe2312;
+  background-color: #f6f7fb;
+  border-radius: 50%;
+}
+
+.tituloMaskP {
+  /* margin-top: 17px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36.5px;
+  font-family: 'Futura', Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  font-weight: 900;
+  font-stretch: normal;
+  font-style: italic;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-align: center;
+  padding-right: 5px;
+  padding-left: 5px;
+  /* color: #0f3e7f; */
+}
+
+.selectP {
+  width: 110px;
+  height: 25px;
+  /* margin: 0px 30px 30px 70px; */
+  /* padding: 12.6px 44px 8px 60px; */
+  background-color: #fe2312;
+  font-family: 'Futurabold', Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: 1px;
+  color: #fff;
+  border-bottom-left-radius: 19px;
+  border-bottom-right-radius: 19px;
+  margin-left: -1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+.circular--landscape {
+  display: inline-block;
+  position: relative;
+  width: 128px;
+  height: 128px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.circular--landscape img {
+  width: auto;
+  height: 100%;
+  margin-left: 0px;
+}
+
+
+.circular--landscapeP {
+  display: inline-block;
+  position: relative;
+  width: 55px;
+  height: 49px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.circular--landscapeP img {
+  width: auto;
+  height: 100%;
+  margin-left: 0px;
+}
+
+.logoqr{
+  height: 260px;
+  padding-top: 90px;
+  margin-left: -70px;
+}
+
+.tituloqr {
+  font-family: 'Futura', Arial, Helvetica, sans-serif;
+  font-size: 25px;
+  color: #0f3e7f;
+  width: 400px;
+  /* padding-top: 50px;
+  padding-bottom: 60px; */
+  height: 200px;
+  margin-left: -70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrowqr{
+  width: 40px;
+  padding-bottom: 80px;
+  margin-left: -70px;
+}
+
+.fullHeight {
+  height: 100vh;
+}
+
+</style>
+    
+<!-- Custom CSS -->
+<link href="../dist/css/style.min.css" rel="stylesheet" />
+    
+  </head>
+
+  <body style="background-color: #000;">
+
+  <div align="center" style="display: flex; align-items: center; justify-content: center;">
+    
+   
+   
+    <video id="vid" preload="auto" autoplay muted style="margin: 0; padding: 0; height: 100vh;">
+        <source src=""  type="video/mp4">
+    </video>
+             
+          
+  </div> 
+
+    <script
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <!-- <script src="../assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="../assets/extra-libs/sparkline/sparkline.js"></script> -->
+
+    <!--Custom JavaScript -->
+    <script src="../dist/js/custom.min.js"></script>
+  </body>
+</html>
+<script src="scripts/kiosco.js"></script>
+<script src="scripts/menus.js"></script>
+

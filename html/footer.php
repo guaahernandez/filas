@@ -18,4 +18,9 @@
     <script src="../dist/js/custom.min.js"></script>
      <!-- Bootbox -->
      <script src="../assets/libs/js/bootbox.min.js"></script>
+    <!-- Alert Avanzados -->
+     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Manejo de fechas y horas -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> -->

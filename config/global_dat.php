@@ -1,4 +1,5 @@
 <?php 
+date_default_timezone_set('America/Costa_Rica');
 //nombre del proyecto
 define("PRO_NOMBRE", "Control de Filas");
 

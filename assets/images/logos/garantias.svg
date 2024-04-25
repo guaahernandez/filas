@@ -1,0 +1,13 @@
+<svg width="55.049" height="55.901" viewBox="0 0 55.049 55.901" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path id="8jcrqkrpda" d="M0 55.901h55.05V0H0z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <mask id="bs15liuw8b" fill="#fff">
+            <use xlink:href="#8jcrqkrpda" transform="matrix(1 0 0 -1 0 55.901)"/>
+        </mask>
+        <path d="m27.524 55.041 22.364-7.062V29.01c0-13.325-9.382-24.775-22.363-27.291h0C14.543 4.236 5.16 15.686 5.16 29.01V47.98l22.364 7.062" stroke="#0F3E7F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" mask="url(#bs15liuw8b)" transform="matrix(1 0 0 -1 0 56.761)"/>
+        <path d="M41.36 18.574a21.454 21.454 0 0 1 2.507 10.075v14.393l-16.342 5.12-16.343-5.12V28.649c0-9.923 6.806-18.536 16.343-20.909a21.447 21.447 0 0 1 7.548 3.548" stroke="#0F3E7F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" mask="url(#bs15liuw8b)" transform="matrix(1 0 0 -1 0 55.901)"/>
+        <path stroke="#0F3E7F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" mask="url(#bs15liuw8b)" transform="matrix(1 0 0 -1 0 55.901)" d="m25.167 20.64-7.104 7.135 3.6 3.616 3.504-3.519 7.358 7.389 3.601-3.616z"/>
+    </g>
+</svg>

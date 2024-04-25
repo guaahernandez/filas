@@ -13,7 +13,7 @@ public function __construct(){
 public function insertar($agenci, $ticket, $vended, $prefer, $destin, $tipoco){
 		date_default_timezone_set('America/Costa_Rica');
 	
-	$sql="INSERT INTO ticket_enc (agenci, ticket, vended, prefer, destin, fechac) VALUES ('$agenci','$ticket','$vended', '$prefer', '$tipoco', NOW())";
+	$sql="INSERT INTO ticket_enc (agenci, ticket, vended, prefer, destin, fechac, horenv) VALUES ('$agenci','$ticket','$vended', '$prefer', '$tipoco', NOW(),NOW())";
 	return ejecutarConsulta($sql);
 }
 
@@ -31,6 +31,14 @@ public function activar($codigo){
 	return ejecutarConsulta($sql);
 }
 
+public function desactivarllamar($consec){
+	$sql="UPDATE ticket_det SET llamar=0 WHERE consec='$consec'";
+	return ejecutarConsulta($sql);
+}
+public function activarllamar($consec){
+	$sql="UPDATE ticket_det SET llamar=1 WHERE consec='$consec'";
+	return ejecutarConsulta($sql);
+}
 //metodo para mostrar registros
 public function mostrar($codigo){
 	$sql="SELECT * FROM ticket_enc WHERE codigo='$codigo'";
@@ -40,11 +48,22 @@ public function mostrar($codigo){
 //listar registros
 public function listar_det_pant(){
 	// $sql="SELECT * FROM ticket_det where agenci='$agenci' and ubicac='$ubicac' and estado='1' ORDER BY consec desc limit 5";
-	$sql = "SELECT t.*, h.agenci as 'agencia' FROM ticket_det t
-	INNER JOIN mhosts h ON h.`agenci`=t.`agenci` AND h.`ubicac`=t.`ubicac`
-	WHERE h.`dir_ip`='".$_SESSION["ip"]."' AND t.estado='1' ORDER BY t.consec DESC LIMIT 5;";
+	$sql = "SELECT t.*, h.n_sede as 'agencia' FROM ticket_det t
+	INNER JOIN mhosts h ON h.`n_sede`=t.`n_sede` AND h.`ubicac`=t.`ubicac`
+	WHERE h.`dir_ip`='".$_SESSION["ip"]."' AND t.estado='1' and t.fechac>date(NOW()) ORDER BY t.consec DESC LIMIT 5;";
+	//echo $sql;
 	return ejecutarConsulta($sql);
 }
+
+//listar registros
+public function l_pant_entreg(){
+	$sql = "SELECT t.*, h.n_sede as 'agencia' FROM ticket_det t
+	INNER JOIN mhosts h ON h.`n_sede`=t.`n_sede` AND h.`ubicac`=t.`ubicac`
+	WHERE h.`dir_ip`='".$_SESSION["ip"]."' AND t.estado='1' and t.fechac>date(NOW()) ORDER BY t.consec DESC LIMIT 5;";
+	//echo $sql;
+	return ejecutarConsulta($sql);
+}
+
 //listar y mostrar en selct
 public function select(){
 	$sql="SELECT * FROM ticket_enc where estado = 1";
@@ -53,16 +72,16 @@ public function select(){
 
 public function getconsec($agenci, $tipoco){
     $conse = "";
-	$sql="SELECT consec FROM consecutivos where agenci='$agenci' and tipoco='$tipoco'";		
+	$sql="SELECT IF(fechac<DATE(NOW()),0,consec)consec FROM consecutivos where agenci='$agenci' and tipoco='$tipoco'";		
 	$conse = ejecutarConsultaConsec($sql);
     
     if($conse==''){
-        $sql = "insert into consecutivos(agenci, tipoco, consec) values ('$agenci','$tipoco',1)";
+        $sql = "insert into consecutivos(agenci, tipoco, consec, fechac) values ('$agenci','$tipoco',1, NOW())";
         ejecutarConsulta($sql);
         $conse = 1;
     }else{
         $conse++;
-        $sql = "update consecutivos set consec = $conse where agenci = '$agenci' and tipoco='$tipoco'";
+        $sql = "update consecutivos set consec = $conse, fechac=NOW() where agenci = '$agenci' and tipoco='$tipoco'";
         ejecutarConsulta($sql);
     }
     return $conse;

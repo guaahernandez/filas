@@ -4,6 +4,7 @@ var tabla;
 function init(){   
     listar_det_pant();    
     cargavideos();
+    //mueve_texto();
     //text_a_voz('F, 303, pasar a ventas 2');
 }
 
@@ -11,16 +12,17 @@ function listar_det_pant(agenci, ubicac){
     var CambiaTexto = 0;
     $.post("../ajax/a_pantalla.php?op=listar_det_pant", function(e){
         document.getElementById("pizarra").innerHTML = e;
-        $.post("../ajax/a_textos.php?op=gettexto", function(e){                    
+        $.post("../ajax/a_textos.php?op=gettexto", function(e){ 
+            document.getElementById("txtmarquee").innerText = e;                   
         }); 
     });   
     var refreshid = setInterval(function(){
         $.post("../ajax/a_pantalla.php?op=listar_det_pant", function(e){
             document.getElementById("pizarra").innerHTML = e;
             CambiaTexto++;
-            if(CambiaTexto==5){
+            if(CambiaTexto==100){
                 $.post("../ajax/a_textos.php?op=gettexto", function(e){        
-                    document.getElementById("pietexto").innerHTML = e;             
+                    document.getElementById("txtmarquee").innerText = e;             
                 }); 
                 CambiaTexto = 0;
             }
@@ -53,5 +55,6 @@ function text_a_voz(text){
     const utterThis = new SpeechSynthesisUtterance(text);
     synth.speak(utterThis)
 }
+
 
 init();
