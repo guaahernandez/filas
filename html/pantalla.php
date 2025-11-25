@@ -2,8 +2,9 @@
 include '../config/global_dat.php';
 
 session_start();
-$_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "192.168.31.9";
-$_SESSION["agenci"] = (isset($_GET["ag"])) ? $_GET["ag"] : "01";
+$_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "VENTA1_HEC";
+$_SESSION["agenci"] = (isset($_GET["ag"])) ? $_GET["ag"] : "S-20";
+$_SESSION["destin"] = (isset($_GET["destin"])) ? $_GET["destin"] : "V";
 $_SESSION["ntexto"] = 0;
 $_SESSION["texto"] = "";
 $_SESSION["formatovideo"] = "horizontal";
@@ -82,7 +83,7 @@ $_SESSION["formatovideo"] = "horizontal";
         padding: 0;
         padding-top: 20px;
         margin: 0;
-        font-size: 72px;
+        font-size: 80px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -211,9 +212,9 @@ $_SESSION["formatovideo"] = "horizontal";
     const playSound = function() {
         if(sonando == 0){
             if(primera==1){
-                var sonido = new Audio("../assets/audios/sonidoact.mp3");
-                sonido.play();
-                Sonidos2();
+                //var sonido = new Audio("../assets/audios/sonidoact.mp3");
+                //sonido.play();
+                //Sonidos2();
                 primera=0;
             }
             //elimina el evento click

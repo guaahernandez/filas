@@ -5,7 +5,10 @@ include 'header.php'
 
 <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.dataTables.css" /> -->
+  
       <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css"/>
+      
       <!-- ============================================================== -->
       <!-- Page wrapper  -->
       <!-- ============================================================== -->
@@ -65,13 +68,15 @@ include 'header.php'
               <a href="javascript:void(0);" onclick="MoverFecha('-');" class="btn btn-sm btn-secondary"><i class="mdi mdi-arrow-left-bold"></i></a>
               <a href="javascript:void(0);" onclick="MoverHoy();" class="btn btn-sm btn-info"><i class="mdi mdi-calendar"></i> hoy </a>
               <a href="javascript:void(0);" onclick="MoverFecha('+');" class="btn btn-sm btn-secondary"><i class="mdi mdi-arrow-right-bold"></i></a>
-              <input type="date" onchange="totvisitas();" class="form-control" id="fecini" name="fecini" value="<?=date('Y-m-d')?>" min="<?=date_format($date, 'Y-m-d')?>">
+              <input type="date" onchange="totvisitas();" class="form-control" id="fecini" name="fecini" value="<?=date('Y-m-d')?>">
+              <!-- <input type="date" onchange="totvisitas();" class="form-control" id="fecini" name="fecini" value="<?=date('Y-m-d')?>" min="<?=date_format($date, 'Y-m-d')?>"> -->
             <!-- </div> -->
           </div>
           <div class="col-sm-2">
             <!-- <div class="form-group"> -->
               <label>Hasta</label>
-              <input type="date" onchange="totvisitas();" class="form-control" id="fecfin" name="fecfin" value="<?=date('Y-m-d')?>" min="<?=date_format($date, 'Y-m-d')?>">
+              <input type="date" onchange="totvisitas();" class="form-control" id="fecfin" name="fecfin" value="<?=date('Y-m-d')?>">
+              <!-- <input type="date" onchange="totvisitas();" class="form-control" id="fecfin" name="fecfin" value="<?=date('Y-m-d')?>" min="<?=date_format($date, 'Y-m-d')?>"> -->
             <!-- </div> -->
           </div>
 
@@ -99,126 +104,11 @@ include 'header.php'
           <!-- Sales Cards  -->
           <!-- ============================================================== -->
           <div class="row">
-            <!-- Column -->
-            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
-              <div class="card card-hover">
-                <div class="box bg-cyan text-center">
-                  <a href="#">
-                    <h1 class="font-light text-white">
-                      <i class="mdi mdi-view-dashboard"></i>
-                    </h1>
-                    <h6 class="text-white">Dashboard</h6>
-                  </a>
-                </div>
-              </div>
-            </div> -->
+            
             <?php if($_SESSION["cftidtipousuario"] != 4){ ?>
-              <!-- Column -->
-              <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
-                <div class="card card-hover">
-                  <div class="box bg-success text-center">
-                    <a href="videos.php">
-                      <h1 class="font-light text-white">
-                        <i class="mdi mdi-chart-areaspline"></i>
-                      </h1>
-                      <h6 class="text-white">Videos</h6>
-                    </a> 
-                  </div>
-                </div>
-              </div> -->
-              <!-- Column -->
-              <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
-                <div class="card card-hover">
-                  <div class="box bg-warning text-center">
-                    <a href="usuario.php">
-                      <h1 class="font-light text-white">
-                        <i class="mdi mdi-collage"></i>
-                      </h1>
-                      <h6 class="text-white">Usuarios</h6>
-                    </a>
-                  </div>
-                </div>
-              </div> -->
-              <!-- Column -->
-              <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
-                <div class="card card-hover">
-                  <div class="box bg-danger text-center">
-                    <h1 class="font-light text-white">
-                      <i class="mdi mdi-border-outside"></i>
-                    </h1>
-                    <h6 class="text-white">Vendedores</h6>
-                  </div>
-                </div>
-              </div> -->
+     
             <?php } ?>
-            <!-- Column -->
-            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
-              <div class="card card-hover">
-                <div class="box bg-info text-center">
-                  <h1 class="font-light text-white">
-                    <i class="mdi mdi-arrow-all"></i>
-                  </h1>
-                  <h6 class="text-white">Full Width</h6>
-                </div>
-              </div>
-            </div> -->
-            <!-- Column -->
-            <!-- Column -->
-            <!-- <div class="col-md-6 col-lg-4 col-xlg-3">
-              <div class="card card-hover">
-                <div class="box bg-danger text-center">
-                  <h1 class="font-light text-white">
-                    <i class="mdi mdi-receipt"></i>
-                  </h1>
-                  <h6 class="text-white">Forms</h6>
-                </div>
-              </div>
-            </div> -->
-            <!-- Column -->
-            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
-              <div class="card card-hover">
-                <div class="box bg-info text-center">
-                  <h1 class="font-light text-white">
-                    <i class="mdi mdi-relative-scale"></i>
-                  </h1>
-                  <h6 class="text-white">Buttons</h6>
-                </div>
-              </div>
-            </div> -->
-            <!-- Column -->
-            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
-              <div class="card card-hover">
-                <div class="box bg-cyan text-center">
-                  <h1 class="font-light text-white">
-                    <i class="mdi mdi-pencil"></i>
-                  </h1>
-                  <h6 class="text-white">Elements</h6>
-                </div>
-              </div>
-            </div> -->
-            <!-- Column -->
-            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
-              <div class="card card-hover">
-                <div class="box bg-success text-center">
-                  <h1 class="font-light text-white">
-                    <i class="mdi mdi-calendar-check"></i>
-                  </h1>
-                  <h6 class="text-white">Calnedar</h6>
-                </div>
-              </div>
-            </div> -->
-            <!-- Column -->
-            <!-- <div class="col-md-6 col-lg-2 col-xlg-3">
-              <div class="card card-hover">
-                <div class="box bg-warning text-center">
-                  <h1 class="font-light text-white">
-                    <i class="mdi mdi-alert"></i>
-                  </h1>
-                  <h6 class="text-white">Errors</h6>
-                </div>
-              </div>
-            </div> -->
-            <!-- Column -->
+         
           </div>
           <!-- ============================================================== -->
           <!-- Sales chart -->
@@ -235,11 +125,11 @@ include 'header.php'
                   </div>
                   <div class="row">
                     <!-- column -->
-                    <div class="col-lg-7">
+                    <div class="col-lg-6">
                       <div id="grafica" style="max-height: 350px;"></div>
                       
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-2">
                       <div class="row">
                         <div class="col-12">
                           <a href="#" onclick="turnosetapas_();" data-bs-toggle="modal" data-bs-target="#modaldatos">
@@ -255,7 +145,7 @@ include 'header.php'
                           <a href="#" data-bs-toggle="modal" onclick="griddatostotal('');" data-bs-target="#modaldatos">
                           <div class="bg-dark p-10 text-white text-center">
                             <i class="mdi mdi-cart fs-3 mb-1 font-16"></i>
-                            <h5 id="totcompras" class="mb-0 mt-1">-</h5>
+                            <h3 id="totcompras" class="mb-0 mt-1">-</h3>
                             <small class="font-light">Ventas</small>
                           </div>
                           </a>
@@ -263,7 +153,7 @@ include 'header.php'
                         
                         <div class="col-12 mt-3">
                           <div class="bg-dark p-10 text-white text-center">
-                            <i class="mdi mdi-check fs-3 mb-1 font-16"></i>
+                            <i class="mdi mdi-check fs-3 mb-1 font-18"></i>
                             <h5 id="completos" class="mb-0 mt-1">-</h5>
                             <small class="font-light">Completos</small>
                           </div>
@@ -321,7 +211,8 @@ include 'header.php'
             <div class="col-lg-6">  
               <div align="center" class="col-12"><h4>Datos resumidos</h4></div>                      
               <div class="row">
-                <div class="col-md-6">
+
+                <div class="col-md-4">
                   <div class="card mt-0">
                     <div class="row">
                       <div class="col-md-12">
@@ -336,7 +227,7 @@ include 'header.php'
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="card mt-0">
                     <div class="row">
                       <div class="col-md-12">
@@ -350,6 +241,22 @@ include 'header.php'
                     </div>
                   </div>
                 </div>
+
+                <div class="col-md-4">
+                  <div class="card mt-0">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div id="respuestageneral" class="peity_line_neutral left text-center mt-2">
+                          <h2>00:00</h2>
+                        </div>
+                      </div>
+                      <div class="col-md-12 border-left text-center pt-2">
+                        <span class="text-muted">Respuesta General</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
 
                 <div class="col-md-6">
                   <div class="card mt-0">
@@ -381,110 +288,55 @@ include 'header.php'
                   </div>
                 </div>
 
+                <div class="col-md-6">
+                  <div class="card mt-0">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div id="promedioatendidos" class="peity_line_neutral left text-center mt-2">
+                          <h2>0</h2>
+                        </div>
+                      </div>
+                      <div class="col-md-12 border-left text-center pt-2">
+                        <span class="text-muted">Promedio Atendidos en Ventas</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <a href="#" data-bs-toggle="modal" onclick="prestamo_consulta();" data-bs-target="#modaldatos">
+                    <div class="card mt-0" style="border-radius: 5px; border: solid 1px #7c7c7c;">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div id="prestamo_cant" class="peity_line_neutral left text-center mt-2">
+                            <h2>0</h2>
+                          </div>
+                          <div class="border-left text-center pt-2">
+                            <span class="text-muted">Prestamos</span>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <div id="prestamo_prom" class="peity_line_neutral left text-center mt-2">
+                            <h2>0</h2>
+                          </div>
+                          <div class="border-left text-center pt-2">
+                            <span class="text-muted">Promedio</span>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
               </div>                              
             </div>
-            <!-- <div class="col-lg-4">
-              <div class="card">
-                <div class="card-body">
-                  <div class="col-12">
-                    <div align="center" id="donutchart" style="text-align: center; height: 300px;">etapas</div>
-                  </div>     
-                </div>           
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="card">
-                <div class="card-body">
-                  <div class="col-12">
-                    <div align="center" id="lineaschart" style="text-align: center; height: 300px;">lineas</div>
-                  </div>     
-                </div>           
-              </div>
-            </div> -->
+           
           </div> 
           </div> 
           
-          <!-- ============================================================== -->
-          <!-- Sales chart -->
-          <!-- ============================================================== -->
-
-          <!-- Cards -->
-          <!-- <div class="row">
-            <div class="col-md-3">
-              <div class="card mt-0">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="peity_line_neutral left text-center mt-2">
-                      <span
-                        ><span style="display: none">10,15,8,14,13,10,10</span>
-                        <canvas width="50" height="24"></canvas>
-                      </span>
-                      <h6>10%</h6>
-                    </div>
-                  </div>
-                  <div class="col-md-6 border-left text-center pt-2">
-                    <h3 class="mb-0 fw-bold">150</h3>
-                    <span class="text-muted">New Users</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card mt-0">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="peity_bar_bad left text-center mt-2">
-                      <span
-                        ><span style="display: none">3,5,6,16,8,10,6</span>
-                        <canvas width="50" height="24"></canvas>
-                      </span>
-                      <h6>-40%</h6>
-                    </div>
-                  </div>
-                  <div class="col-md-6 border-left text-center pt-2">
-                    <h3 class="mb-0 fw-bold">4560</h3>
-                    <span class="text-muted">Orders</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card mt-0">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="peity_line_good left text-center mt-2">
-                      <span
-                        ><span style="display: none">12,6,9,23,14,10,17</span>
-                        <canvas width="50" height="24"></canvas>
-                      </span>
-                      <h6>+60%</h6>
-                    </div>
-                  </div>
-                  <div class="col-md-6 border-left text-center pt-2">
-                    <h3 class="mb-0">5672</h3>
-                    <span class="text-muted">Active Users</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <div class="card mt-0">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="peity_bar_good left text-center mt-2">
-                      <span>12,6,9,23,14,10,13</span>
-                      <h6>+30%</h6>
-                    </div>
-                  </div>
-                  <div class="col-md-6 border-left text-center pt-2">
-                    <h3 class="mb-0 fw-bold">2560</h3>
-                    <span class="text-muted">Register</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
-          <!-- End cards -->
+          
           
         </div>
         <!-- ============================================================== -->
@@ -527,8 +379,11 @@ include 'header.php'
     </div>
   </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
     <!-- datatables -->
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <!-- <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script> -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>

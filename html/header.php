@@ -5,6 +5,7 @@
   if (!isset($_SESSION['cftnombre'])) {
     header("Location: login.html");
   }
+  date_default_timezone_set('America/Costa_Rica');
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -34,6 +35,7 @@
     <!-- <link href="../assets/libs/flot/css/float-chart.css" rel="stylesheet" /> -->
     <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet" />
+    <!-- <link href="../dist/css/bootstrap.min.css" rel="stylesheet" /> -->
     <!-- Bootstrap tether Core JavaScript -->
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -234,7 +236,7 @@
                 >
               </li>
 
-              <?php if($_SESSION["cftidtipousuario"] != 4){ ?> <!--oculta opciones del menu -->
+              <?php if($_SESSION["cftidtipousuario"] != 4 and $_SESSION["cftidtipousuario"] != 3 and $_SESSION["cftidtipousuario"] != 2){ ?> <!--oculta opciones del menu -->
                 <li class="sidebar-item">
                   <a
                     class="sidebar-link waves-effect waves-dark sidebar-link"
@@ -282,7 +284,9 @@
                     ><span class="hide-menu">Sedes</span></a
                   >
                 </li>
-                <li class="sidebar-item">
+                
+              <?php } ?>
+              <li class="sidebar-item">
                   <a
                     class="sidebar-link waves-effect waves-dark sidebar-link"
                     href="informes.php"
@@ -290,10 +294,10 @@
                     ><i class="mdi mdi-clipboard-text"></i
                     ><span class="hide-menu">Informes</span></a
                   >
-                </li>
-              <?php } ?>
-
-              <li class="sidebar-item">
+                </li> 
+              
+              <?php if($_SESSION["cftidtipousuario"] != 4 and $_SESSION["cftidtipousuario"] != 3 and $_SESSION['cftlogin'] != 'jfallas'){ ?> <!--oculta opciones del menu -->
+                <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
                   href="kioscoh.php"
@@ -302,6 +306,7 @@
                   ><span class="hide-menu">Kiosco</span></a
                 >
               </li>
+              
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
@@ -329,7 +334,7 @@
                   ><span class="hide-menu">Entregas</span></a
                 >
               </li>
-
+              
               <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"
@@ -339,6 +344,16 @@
                   ><span class="hide-menu">Visor Videos</span></a
                 >
               </li>
+              <li class="sidebar-item">
+                <a
+                  class="sidebar-link waves-effect waves-dark sidebar-link"
+                  href="kiosco720x1280.php"
+                  aria-expanded="false"
+                  ><i class="mdi mdi-monitor"></i
+                  ><span class="hide-menu">kiosco720x1280</span></a
+                >
+              </li>
+              <?php } ?>
               <!-- <li class="sidebar-item">
                 <a
                   class="sidebar-link waves-effect waves-dark sidebar-link"

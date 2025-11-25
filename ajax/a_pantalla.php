@@ -45,6 +45,8 @@ function saveSound($text, $cia)
 
 function getSound($text)
 {            
+    try {
+        //code...
     
     $text = trim($text);
 
@@ -64,12 +66,13 @@ function getSound($text)
         ],
         "voice"=>[
             "languageCode"=> "es-US",
-            "name" =>"es-US-Standard-C"
+            "name" =>"es-US-Standard-A"
         ]
     ];
 
     $data_string = json_encode($params);
-    $speech_api_key = "AIzaSyCYTqTGAepFytywoTCdIoj2aE6D3dz5jRM";
+    //$speech_api_key = "AIzaSyCYTqTGAepFytywoTCdIoj2aE6D3dz5jRM";
+    $speech_api_key = "AIzaSyCJDRYlpEWIQ_wOl7zgWxTxq2tQNhjoj4Y"; //Api en cuenta de la guaca, generada por Cristian el 22/05/2024
     //$speech_api_key = "";
 
     $url = 'https://texttospeech.googleapis.com/v1/text:synthesize?fields=audioContent&key=' . $speech_api_key;
@@ -90,7 +93,10 @@ function getSound($text)
         return $responseDecoded['audioContent'];                
     } 
 
-    return false;  
+    return false; 
+} catch (Exception $e) {
+    echo "Error: ". $e->getMessage();
+} 
 }
 
 
@@ -113,8 +119,10 @@ switch ($_GET["op"]) {
             if($reg->llamar==1){
                 //$txtllamar = ', v, 10, pasar a ventas 1'; // ejemplo
                 $txtllamar = ', '.str_replace('-',',',$reg->ticket).', pasar a '.$reg->destin;
-                saveSound($txtllamar, $reg->agencia);
-                $ticket->desactivarllamar($reg->consec);
+                if($reg->ver_numero > 0) $txtllamar .= ' - '.$reg->estacion;
+                
+                //saveSound($txtllamar, $reg->agencia);
+                //$ticket->desactivarllamar($reg->consec);
                 //echo $txtllamar;
             }
 
@@ -124,7 +132,10 @@ switch ($_GET["op"]) {
                 <?=$reg->ticket;?>        
             </div>
             <div class="col-7 num <?=$fondo;?>">
-                <?=$reg->destin;?>        
+                <?php  
+                    $estacion = ($reg->ver_numero > 0) ? $reg->estacion : '';
+                    echo $reg->destin.' '.$estacion;
+                ?>        
             </div>
 
             <?php
@@ -141,9 +152,9 @@ switch ($_GET["op"]) {
 
     case 'l_pant_entreg':
         ?>
-            <div class="col-4 titulo">NOMBRE</div>
-            <div class="col-4 titulo">PUESTO</div>
-            <div class="col-4 titulo">ESTAD0</div>
+            <div class="col-6 titulo">FACTURA</div>
+            <div class="col-6 titulo">ESTADO</div>
+            <!-- <div class="col-4 titulo">ESTAD0</div> -->
         <?php
         $fondo = "fondorojo";
         $cont = 8;
@@ -154,20 +165,20 @@ switch ($_GET["op"]) {
             }
             $cont--;
 
-            if($reg->llamar==1){
-                //$txtllamar = ', v, 10, pasar a ventas 1'; // ejemplo
-                $txtllamar = ', '.str_replace('-',',',$reg->ticket).', pasar a '.$reg->destin;
-                saveSound($txtllamar, $reg->agencia);
-                $ticket->desactivarllamar($reg->consec);
-                //echo $txtllamar;
-            }
+            // if($reg->llamar==1){
+            //     //$txtllamar = ', v, 10, pasar a ventas 1'; // ejemplo
+            //     $txtllamar = ', '.str_replace('-',',',$reg->ticket).', pasar a '.$reg->destin;
+            //     saveSound($txtllamar, $reg->agencia);
+            //     $ticket->desactivarllamar($reg->consec);
+            //     //echo $txtllamar;
+            // }
 
             ?>
             <div class="col-5 num <?=$fondo;?>">
-                <?=$reg->destin;?>        
+                <?=substr(str_pad($reg->factura,10,' ',STR_PAD_LEFT),6);?>        
             </div>
             <div class="col-7 num <?=$fondo;?>">
-                <?=$reg->destin;?>        
+                <?=$reg->estadof;?>        
             </div>
 
             <?php

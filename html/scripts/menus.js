@@ -1,134 +1,59 @@
 var tabla;
+var _numfac;
 
-//funcion que se ejecuta al inicio
-// function init(){   
-//   //cargamenu('principal');
-//   //opmenu_enc('principal');
-//   //getpromo();    
-//   //cargavideos();
-// }
+async function onKeyUp(event, prefer, android, agenci){ {
+    var keycode = event.keyCode;
+    var link;
+    var codigo;
+    if(keycode == '13'){
+        _numfac = $('#numfac').val();
+        //alert(_numfac + ' ' + android);
+        opmenu_enc("pasaentreg", _numfac);
+        
+        if(android=="1"){
+            
+            // //crea el tiquete y obtiene el codigo
+            await $.post("../ajax/a_menus.php?op=creaticket", { agenci: agenci, tipoco : "E", prefer : 0, vended : "", factur : _numfac }, function(e){
+                dato = e.split("|");
+                //alert(e);
+            });     
+            //crea el detalle
+            // await $.post("../ajax/a_menus.php?op=creaticket_det", { agenci : agenci, segund : 0, ubicac : "E", destin : "ENTREGAS", codigt: codigo, prefac:"", factur:_numfac, montof:0, estacion:0 }, function(e){
+            //     //alert(e);
+            // });  
+            
+        //   data="&sucursal="+agenci+"&destino=E&estado=3&tiquete="+dato[1]+"&factura="+_numfac+"&monto=0&tipodoc=V&codtrans="+dato[0]
 
-//funcion limpiar
-// function limpiar(){
-// 	// $("#agenci").val("");
-// 	// $("#codigo").val("");
-// 	// $("#direcc").val("");
-//     // $("#estado").val(""); 
-//     // $("#videoa").val(""); 
-//     // $("#descri").val(""); 
-// }
- 
-//funcion mostrar formulario
-// function mostrarform(flag){
-// 	limpiar();
-// 	if(flag){
-// 		$("#listadoregistros").hide();
-// 		$("#formularioregistros").show();
-// 		$("#btnGuardar").prop("disabled",false);
-// 		$("#btnagregar").hide();
-// 	}else{
-// 		$("#listadoregistros").show();
-// 		$("#formularioregistros").hide();
-// 		$("#btnagregar").show();
-// 	}
-// }
+        //   fetch('http://localhost/wsecom/index.php?key=test2021&metodo=filas_entreg_add'+data)
+        //   .then(res => res.json()) // se obtiene respuesta y se parsea a JSON.
+        //   .then(res => console.log('Respuesta: ', res))
+        //   .catch(err => console.error('Error:', err));
+            codigt = dato[0];
+            turno = dato[1];
+            await $.post("../ajax/a_menus.php?op=guarda_fact_ticket", { codigt: codigt, agenci: agenci, turno: turno, factur: _numfac }, function(e){
+                //alert(e);
+            });    
+            
+        }else{
+            setTimeout(function(){ 
+                link = '-';
+                link += (prefer=='1' ? 'PF=' : 'F=') + _numfac;
+                window.location.href = link;
+            },100);    
+        }
+            
+    }
+  }
+}
 
-//cancelar form
-// function cancelarform(){
-// 	limpiar();
-// 	mostrarform(false);
-// }
-
-//funcion listar
-// function listar(){    
-    
-// 	tabla=$('#tbllistado').dataTable({
-// 		"aProcessing": true,//activamos el procedimiento del datatable
-// 		"aServerSide": true,//paginacion y filrado realizados por el server
-// 		dom: 'Bfrtip',//definimos los elementos del control de la tabla
-// 		buttons: [
-//                   'copyHtml5',
-//                   'excelHtml5',
-//                   'csvHtml5',
-//                   'pdf'
-// 		],
-// 		"ajax":
-// 		{
-// 			url:'../ajax/a_videos.php?op=listar',
-// 			type: "post",
-// 			dataType : "json",
-// 			error:function(e){
-// 				console.log(e.responseText);
-// 			}
-// 		},
-// 		"bDestroy":true,
-// 		"iDisplayLength":10,//paginacion
-// 		"order":[[0,"desc"]]//ordenar (columna, orden)
-// 	}).DataTable();
-// }
-//funcion para guardaryeditar
-// function guardaryeditar(e){
-//      e.preventDefault();//no se activara la accion predeterminada 
-//      $("#btnGuardar").prop("disabled",true);
-//      var formData=new FormData($("#formulario")[0]);
-
-//      $.ajax({
-//      	url: "../ajax/a_videos.php?op=guardaryeditar",
-//      	type: "POST",
-//      	data: formData,
-//      	contentType: false,
-//      	processData: false,
-
-//      	success: function(datos){
-//      		//bootbox.alert(datos);
-//      		mostrarform(false);
-//      		tabla.ajax.reload();
-//      	}
-//      });
-
-//      limpiar();
-// }
-
-// function mostrar(codigo){
-// 	$.post("../ajax/a_videos.php?op=mostrar",{codigo : codigo},
-// 		function(data,status)
-// 		{
-// 			data=JSON.parse(data);
-// 			mostrarform(true);
-//             // $("#descri").val(data.descri);    
-// 			// $("#agenci").val(data.agenci);
-// 			// $("#videoa").val(data.direcc);
-// 			// $("#estado").val(data.estado);
-//             // $("#codigo").val(data.codigo);
-// 		})
-// }
-
-
-//funcion para desactivar
-// function desactivar(codigo){
-// 	result = confirm("¿Esta seguro(a) de desactivar este dato?");
-// 		if (result) {
-// 			$.post("../ajax/a_videos.php?op=desactivar", {codigo : codigo}, function(e){
-// 				//bootbox.alert(e);
-// 				tabla.ajax.reload();
-// 			});
-// 		}
-	
-// }
-
-// function activar(codigo){
-// 	result = confirm("¿Esta seguro(a) de activar este dato?");
-// 		if (result) {
-// 			$.post("../ajax/a_videos.php?op=activar" , {codigo : codigo}, function(e){
-// 				//bootbox.alert(e);
-// 				tabla.ajax.reload();
-// 			});
-// 		}
-	
-// }
+function pasar(){
+    alert("Pasar");
+    $('#pasar')[0].click();
+}
 
 function cargamenu(ubmenu){
 	//$(".preloader").fadeIn();
+    //alert("Cargando menu: " + ubmenu);
     $.post("../ajax/a_menus.php?op=cargamenu", { ubmenu : ubmenu }, function(e){
         document.getElementById("botones").innerHTML = e;
 	//	$(".preloader").fadeOut();
@@ -144,45 +69,26 @@ function cargamenu_v(agenci){
     });    	
 }
 
-function opmenu_enc(ubmenu){
+function opmenu_enc(ubmenu, numfac = ""){
 	//$(".preloader").fadeIn();
-    $.post("../ajax/a_menus.php?op=opmenu_enc", { ubmenu : ubmenu }, function(e){
+    //alert("Cargando menu: " + ubmenu + " con numfac: " + numfac);
+    $.post("../ajax/a_menus.php?op=opmenu_enc", { ubmenu : ubmenu, numfac : numfac }, function(e){
         document.getElementById("botones").innerHTML = e;
-		if(ubmenu=='retirartic'){
-			//var refreshid = setInterval(function(){
-				//opmenu_enc('principal');
-			//},5000);
+		if(ubmenu=='retirartic'){            
+            setTimeout(function(){ 
+                opmenu_enc('principal');
+            },4000);
 		}
+        if(ubmenu=='pasaentreg'){            
+            setTimeout(function(){ 
+                opmenu_enc('principal');
+            },4000);
+		}
+        if(ubmenu=='codigobr'){            
+            document.getElementById("numfac").focus();
+        }
     });    
 }
-
-// function cargavideos(){
-//     var n = 0;
-//     var data;
-//     $.post("../ajax/a_menus.php?op=cargavideos", { codigo : n}, function(e){
-//         data=JSON.parse(e);
-//         //vid.setAttribute("src", "http://ws.laguacamaya.cr:13565/filas/assets/videos/"+data["direcc"]);
-//         n = data["codigo"];
-		
-//         // vid.addEventListener("ended",()=>{
-//         //     // si el video se ha acabado cambia el atributo src
-//         //     $.post("../ajax/a_menus.php?op=cargavideos", { codigo : n}, function(e){
-//         //         data=JSON.parse(e);
-//         //         //vid.setAttribute("src", "http://ws.laguacamaya.cr:13565/filas/assets/videos/"+data["direcc"]);
-//         //         n = data["codigo"];                
-//         //     }); 
-//         // });        
-//     });
-    
-//     //vid.setAttribute("src", "http://localhost/filas/assets/videos/"+data["direcc"]);
-    
-//     // vid.addEventListener("ended",()=>{
-//     // // si el video se ha acabado cambia el atributo src
-//     // //vid.setAttribute("src", vids[n%leng]);
-//     // //n++;
-//     // }
-//     // )
-// }
 
 async function getcias(){
     await $.post("../ajax/a_videos.php?op=getcias", function(e){
@@ -191,23 +97,48 @@ async function getcias(){
     });   
 }
 
-// function getpromo(){
-//     $.post("../ajax/a_menus.php?op=getpromo", function(e){
-//         //alert(e);
-//         //promo.setAttribute("src", e);
-//     });   
-// }
 
-async function creaticket(agenci,tipoco,prefer,vended){
+async function creaticket(agenci,tipoco,prefer,vended, numfac = "", pAndroid = false){
     if(tipoco=='P'){
         cargamenu('prefer');
     }else{
-        await $.post("../ajax/a_menus.php?op=creaticket", { agenci : agenci, tipoco : tipoco, prefer : prefer, vended : vended }, function(e){
-			opmenu_enc('retirartic');
-			// var refreshid = setInterval(function(){
-			// 	opmenu_enc('principal');
-			// },1000);
-		});   
+        if(pAndroid){
+            console.log("prefer: " + prefer);
+            console.log("tipoco: " + tipoco);
+            if(prefer=='1' && tipoco=='V'){
+                tipoco= 'P' + tipoco;
+            }
+            console.log("tipoco: " + tipoco);
+            // //crea el tiquete y obtiene el codigo
+            await $.post("../ajax/a_menus.php?op=creaticket", { agenci : agenci, tipoco : tipoco, prefer : prefer, vended : vended, numfac : numfac }, function(e){
+                opmenu_enc('retirartic');
+                
+                $.post("../ajax/a_menus.php?op=obtener_imprimir", { codigo : e }, function(dat){
+                    data=JSON.parse(dat);
+                     //alert(dat);
+                    var text = "";//<center><IMAGE>http://ws.laguacamaya.cr:13565/filas/assets/images/Guaca2.png<br><br>";
+                    text += "Repuestos La Guaca";
+                    text += "|BIENVENIDO(A)|"+data["agencia"]+"|Su turno es";
+                    text += '|'+data["ticket"];
+                    text += "|"+data["vengoa"];
+                    if(data["vended"]!=null){
+                        text += "|Vendedor: "+data["vended"];
+                    }else{ 
+                        text += "|" 
+                    }
+                    text += "|Emision: "+data["fechac"];
+                    text += "|"+data["ticket"];
+                    var textEncoded = encodeURI(text);
+                    
+                    window.location.href="-V=" + textEncoded;
+                    console.log(text);
+                });
+                
+            });   
+        }else{    
+            opmenu_enc('retirartic');
+        }
+        
     }
 }
     

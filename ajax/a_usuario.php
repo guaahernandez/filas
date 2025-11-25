@@ -18,7 +18,7 @@ $password=isset($_POST["clave"])? limpiarCadena($_POST["clave"]):"";
 $imagen=isset($_POST["imagen"])? limpiarCadena($_POST["imagen"]):"";
 $usuariocreado=isset($_POST["nombre"])? limpiarCadena($_POST["nombre"]):"";
 $idmensaje=isset($_POST["idmensaje"])? limpiarCadena($_POST["idmensaje"]):"";
-
+$n_sede=isset($_POST["fsede"])? limpiarCadena($_POST["fsede"]):"";
 
 switch ($_GET["op"]) {
 	case 'guardaryeditar':
@@ -42,12 +42,12 @@ switch ($_GET["op"]) {
 		$clavehash=hash("SHA256", $password);
 
 		if (empty($idusuario)) {
-			$idusuario=$_SESSION["idusuario"];
-			$rspta=$usuario->insertar($nombre,$apellidos,$login,$iddepartamento,$idtipousuario,$email,$clavehash,$imagen,$usuariocreado,$codigo_persona);
+			//$idusuario=$_SESSION["idusuario"];
+			$rspta=$usuario->insertar($nombre,$apellidos,$login,$iddepartamento,$idtipousuario,$email,$clavehash,$imagen,$usuariocreado,$codigo_persona,$n_sede);
 			echo $rspta ? "Datos registrados correctamente" : "No se pudo registrar todos los datos del usuario";
 		}
 		else {
-			$rspta=$usuario->editar($idusuario,$nombre,$apellidos,$login,$iddepartamento,$idtipousuario,$email,$imagen,$usuariocreado,$codigo_persona);
+			$rspta=$usuario->editar($idusuario,$nombre,$apellidos,$login,$iddepartamento,$idtipousuario,$email,$imagen,$usuariocreado,$codigo_persona,$n_sede);
 			echo $rspta ? "Datos actualizados correctamente" : "No se pudo actualizar los datos";
 		}
 	break;
@@ -98,7 +98,7 @@ switch ($_GET["op"]) {
 			?"<img src='../assets/usuarios/".$reg->imagen."' height='50px' width='50px'>"
 			:"<img src='../assets/usuarios/user.png' height='50px' width='50px'>";
 			$data[$i][6]=$reg->fechacreado;
-			$data[$i][7]=($reg->estado)?'<span class="label bg-green">Activado</span>':'<span class="label bg-red">Desactivado</span>';
+			$data[$i][7]=($reg->estado)?'<span class="badge bg-success"><strong>Activo</strong></span>':'<span class="badge bg-danger"><strong>Inactivo</strong></span>';
 			$i++;
 		}
 
@@ -137,7 +137,7 @@ switch ($_GET["op"]) {
 			$_SESSION['cftidtipousuario']=$fetch->idtipousuario;
 			$_SESSION['cftdepartamento']=$fetch->iddepartamento;
 			$_SESSION['cftdepartamento_name']=$fetch->departamento;
-
+			$_SESSION['n_sede']=$fetch->n_sede;
 			require "../config/Conexion.php";
 
 			$sql="UPDATE usuarios SET iteracion='1' WHERE idusuario='$id'";

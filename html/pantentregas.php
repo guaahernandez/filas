@@ -2,8 +2,8 @@
 include '../config/global_dat.php';
 
 session_start();
-$_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "192.168.31.9";
-$_SESSION["agenci"] = (isset($_GET["ag"])) ? $_GET["ag"] : "01";
+$_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "ENTREGAS03";
+$_SESSION["agenci"] = (isset($_GET["ag"])) ? $_GET["ag"] : "S-06";
 $_SESSION["ntexto"] = 0;
 $_SESSION["texto"] = "";
 $_SESSION["formatovideo"] = "horizontal";
@@ -142,6 +142,7 @@ $_SESSION["formatovideo"] = "horizontal";
   <!-- ============================================================== -->
   <!-- Container fluid  -->
   <!-- ============================================================== -->
+  
   <div class="container" style="background-color: #ffffff;">
     <!-- ============================================================== -->
     <!-- Start Page Content -->
@@ -211,8 +212,8 @@ $_SESSION["formatovideo"] = "horizontal";
     const playSound = function() {
         if(sonando == 0){
             if(primera==1){
-                var sonido = new Audio("../assets/audios/sonidoact.mp3");
-                sonido.play();
+                // var sonido = new Audio("../assets/audios/sonidoact.mp3");
+                // sonido.play();
                 Sonidos2();
                 primera=0;
             }

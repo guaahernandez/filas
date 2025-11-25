@@ -1,9 +1,48 @@
 <?php 
 ob_start();
-include 'header.php' 
+include 'header.php';
+date_default_timezone_set('America/Costa_Rica');
 ?>
 
+<style type="text/css">
+  table.blueTable {
+  /* border: 1px solid #1C6EA4; */
+  width: 100%;
+  text-align: center; 
+  border-collapse: collapse;
+}
+table.blueTable td, table.blueTable th {
+  /* border: 1px solid #AAAAAA; */
+  padding: 7px 2px;
+}
+table.blueTable tbody td {
+  font-size: 15px;
+}
+table.blueTable thead {
+  background: #204489;
+  border-bottom: 2px solid #444444;
+}
+table.blueTable thead th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+  border-left: 1px solid #D0E4F5;
+}
+table.blueTable thead th:first-child {
+  border-left: none;
+}
 
+table.blueTable tfoot {
+  font-size: 14px;
+  font-weight: bold;
+  color: #FFFFFF;
+  background: #204489;
+  border-top: 2px solid #444444;
+}
+  </style>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css"/>
       <!-- ============================================================== -->
       <!-- Page wrapper  -->
       <!-- ============================================================== -->
@@ -31,62 +70,43 @@ include 'header.php'
         <!-- ============================================================== -->
         <!-- Inicia filtros -->
         <!-- ============================================================== -->
-        <form onsubmit="tipoInforme(); return false" class="form" method="post">
+        <form class="form" method="post">
             <div class="row" style="margin-left: 7px;">
-                <div class="col-sm-4 col-md-3 col-lg-2 mb-2">
-                    <!-- <div class="form-group"> -->
-                    <label>Tipo</label>
-                    <select class="form-control" name="ftipo" id="ftipo">
-                        <option value="1">Turnos resumido</option>
-                    </select>
-                    <!-- </div> -->
-                </div>
-                <div class="col-sm-4 col-md-3 col-lg-2 mb-2">
-                    <!-- <div class="form-group"> -->
-                    <label>Sede</label>
-                    <select class="form-control" name="fsede" id="fsede">
-                        <option value="1">Sede Central</option>
-                    </select>
-                    <!-- </div> -->
-                </div>
-                <div class="col-sm-3 col-md-2 col-lg-1 mb-2">
-                    <!-- <div class="form-group"> -->
-                    <label>Area</label>
-                    <select class="form-control" name="farea" id="farea">
-                        <option value="0">Todas...</option>
-                        <option value="V">Ventas</option>
-                        <option value="C">Cajas</option>
-                        <option value="E">Entregas</option>
-                    </select>
-                    <!-- </div> -->
-                </div>
-
-                <div class="col-sm-4 col-md-3 col-lg-2 mb-2">
-                    <!-- <div class="form-group"> -->
-                    <?php 
-                    $date = date_create(date('Y-m-d')); 
-                    date_sub($date, date_interval_create_from_date_string('15 days')); 
-                    ?>
-                    <label>Desde</label>
-                    <a href="javascript:void(0);" onclick="MoverFecha('-');" class="btn btn-sm btn-secondary"><i class="mdi mdi-arrow-left-bold"></i></a>
-                    <a href="javascript:void(0);" onclick="MoverHoy();" class="btn btn-sm btn-info">hoy</a>
-                    <a href="javascript:void(0);" onclick="MoverFecha('+');" class="btn btn-sm btn-secondary"><i class="mdi mdi-arrow-right-bold"></i></a>
-                    <input type="date" class="form-control" id="fecini" name="fecini" value="<?=date('Y-m-01')?>">
-                    <!-- </div> -->
-                </div>
-                <div class="col-sm-4 col-md-3 col-lg-2 mb-2">
-                    <!-- <div class="form-group"> -->
-                    <label>Hasta</label>
-                    <input type="date" class="form-control" id="fecfin" name="fecfin" value="<?=date('Y-m-d')?>">
-                    <!-- </div> -->
-                </div>
-
-                <div class="col-sm-3 col-md-2 col-lg-1 mb-2">
+                <div class="col-sm-12 col-md-6 col-lg-3 mb-2">
                     <div class="form-group">
-                    <label>&nbsp;</label>
-                    <input type="submit" class="form-control btn btn-info" value="Ver">
+                      <label>Tipo</label>
+                      <select class="form-control" onchange="tipoInforme();" name="ftipo" id="ftipo">
+                          <option value="0">Seleccione una opción</option>
+                          <option value="1">Trazabilidad por turno</option>
+                          <option value="2">Comparación emisiones por hora</option>
+                          <option value="3">Turnos por ubicación</option>
+                          <option value="4">Estado en línea</option>
+                          <option value="5">Estudio detallado</option>
+                      </select>                    
                     </div>
                 </div>
+                <div class="col-sm-4 col-md-3 col-lg-2 mb-2" id="lasede" style="display: none;">
+                    <label>Sede</label>
+                    <select class="form-control" name="fsede" id="fsede">
+                      <option value="1">Sede Central</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 col-md-3 col-lg-2 mb-2" id="lafecha1" style="display: none;">                  
+                    <label id="lblf1">Fecha</label>  
+                    <input type="date" name="ffecha1" id="ffecha1" class="form-control" value="<?=date('Y-m-d')?>">                  
+                </div>
+                <div class="col-sm-4 col-md-3 col-lg-2 mb-2" id="lafecha2" style="display: none;">                  
+                    <label id="lblf2">Fecha</label>  
+                    <input type="date" name="ffecha2" id="ffecha2" class="form-control" value="<?=date('Y-m-d')?>">                  
+                </div>
+                <div class="col-sm-4 col-md-3 col-lg-2 mb-2">
+                  <div id="elboton" class="form-group" style="display: none;">  
+                    <label>&nbsp;</label>  
+                    <input type="button" class="form-control btn btn-info" onclick="" value="Ver">
+                  </div>   
+                </div>
+                
+
             </div>
         </form>
         <!-- ============================================================== -->
@@ -143,41 +163,18 @@ include 'header.php'
     <!-- All Jquery -->
     <!-- ============================================================== -->
 
-
-    <script>
-    $(document).ready(function() {
-        $('#tdatos').DataTable( {
-            dom: 'Bfrtip',
-            lengthMenu: [
-                [ 10, 25, 50, -1 ],
-                [ '10 rows', '25 rows', '50 rows', 'Show all' ]
-            ],
-            responsive: true,
-            buttons: [
-                {
-                    extend: 'print',
-                    messageTop: 'Usuarios incluidos en el CMS'
-                },
-            'excel', 'pdf', 'pageLength'
-            ],
-            "order": [],
-            "order": [[ 6, 'desc' ]],
-            //"order": [[ 0, 'asc' ], [ 1, 'asc' ]]
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-                }
-        } );
-    } );
-    </script>
-    <!-- datatables -->
-    <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+     <!-- datatables -->
+     <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
   </body>
+
 </html>
 <!--This page JavaScript -->
 <script src="scripts/informes.js"></script>
-<?php ob_end_flush(); ?>
+<?php 
+
+ob_end_flush(); ?>

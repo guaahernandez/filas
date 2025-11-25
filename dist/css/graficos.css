@@ -1,0 +1,36 @@
+@media only screen and (min-width: 1530px) {
+    .mi_pie {
+        width: 400px;
+        height: 350px;
+    }
+}
+@media only screen and (min-width: 1375px) and (max-width: 1529px) {
+    .mi_pie {
+        width: 350px;
+        height: 300px;
+    }
+}
+@media only screen and (min-width: 992px) and (max-width: 1374px) {
+    .mi_pie {
+        width: 300px;
+        height: 280px;
+    }
+}
+@media only screen and (min-width: 600px) and (max-width: 991px) {
+    .mi_pie {
+        width: 500px;
+        height: 450px;
+    }
+}
+@media only screen and (min-width: 400px) and (max-width: 599px) {
+    .mi_pie {
+        width: 450px;
+        height: 400px;
+    }
+}
+@media only screen and (max-width: 399px) {
+    .mi_pie {
+        width: 300px;
+        height: 250px;
+    }
+}

@@ -52,6 +52,9 @@ function listar(){
                   'csvHtml5',
                   'pdf'
 		],
+		"language": {
+			"url": "esp.json"
+		},
 		"ajax":
 		{
 			url:'../ajax/a_sedes.php?op=listar',

@@ -10,16 +10,16 @@ public function __construct(){
 }
 
 //metodo insertar regiustro
-public function insertar($nombre,$apellidos,$login,$iddepartamento,$idtipousuario,$email,$clavehash,$imagen,$usuariocreado,$codigo_persona){
+public function insertar($nombre,$apellidos,$login,$iddepartamento,$idtipousuario,$email,$clavehash,$imagen,$usuariocreado,$codigo_persona, $n_sede){
 	date_default_timezone_set('America/Costa_Rica');
 	$fechacreado=date('Y-m-d H:i:s');
-	$sql="INSERT INTO usuarios (nombre,apellidos,login,iddepartamento,idtipousuario,email,password,imagen,estado,fechacreado,usuariocreado,codigo_persona) VALUES ('$nombre','$apellidos','$login','$iddepartamento','$idtipousuario','$email','$clavehash','$imagen','1','$fechacreado','$usuariocreado','$codigo_persona')";
+	$sql="INSERT INTO usuarios (nombre,apellidos,login,iddepartamento,idtipousuario,email,password,imagen,estado,fechacreado,usuariocreado,codigo_persona,n_sede) VALUES ('$nombre','$apellidos','$login','$iddepartamento','$idtipousuario','$email','$clavehash','$imagen','1','$fechacreado','$usuariocreado','$codigo_persona','$n_sede')";
 	return ejecutarConsulta($sql);
 
 }
 
-public function editar($idusuario,$nombre,$apellidos,$login,$iddepartamento,$idtipousuario,$email,$imagen,$usuariocreado,$codigo_persona){
-	$sql="UPDATE usuarios SET nombre='$nombre',apellidos='$apellidos',login='$login',iddepartamento='$iddepartamento',idtipousuario='$idtipousuario',email='$email',imagen='$imagen' ,usuariocreado='$usuariocreado',codigo_persona='$codigo_persona'    
+public function editar($idusuario,$nombre,$apellidos,$login,$iddepartamento,$idtipousuario,$email,$imagen,$usuariocreado,$codigo_persona, $n_sede){
+	$sql="UPDATE usuarios SET nombre='$nombre',apellidos='$apellidos',login='$login',iddepartamento='$iddepartamento',idtipousuario='$idtipousuario',email='$email',imagen='$imagen' ,usuariocreado='$usuariocreado',codigo_persona='$codigo_persona', n_sede='$n_sede'    
 	WHERE idusuario='$idusuario'";
 	 return ejecutarConsulta($sql);
 
@@ -62,7 +62,7 @@ public function cantidad_usuario(){
 	public function verificar($login,$clave)
     {
     	$sql="SELECT u.codigo_persona,u.idusuario,u.nombre,u.apellidos,u.login,u.idtipousuario";
-		$sql.=", u.iddepartamento,u.email,u.imagen,u.login, tu.nombre as tipousuario, d.descripcion AS departamento";
+		$sql.=", u.iddepartamento,u.email,u.imagen,u.login, tu.nombre as tipousuario, d.descripcion AS departamento, u.n_sede";
 		$sql.=" FROM usuarios u INNER JOIN tipousuario tu ON u.idtipousuario=tu.idtipousuario";
 		$sql.=" LEFT JOIN cias d ON d.iddepartamento=u.`iddepartamento`";
 		$sql.=" WHERE login='$login' AND password='$clave' AND u.estado='1'"; 

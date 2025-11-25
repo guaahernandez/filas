@@ -28,6 +28,7 @@ public function desactivar($codigo){
 }
 public function activar($codigo){
 	$sql="UPDATE textos SET estado=1 WHERE codigo='$codigo'";
+	echo $sql;
 	return ejecutarConsulta($sql);
 }
 

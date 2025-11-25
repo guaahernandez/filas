@@ -61,7 +61,7 @@ function mostrarform_clave(flag){
 }
 //cancelar form
 function cancelarform(){
-	limpiar();
+	//limpiar();
 	mostrarform(false);
 }
 
@@ -86,7 +86,7 @@ function listar(){
                   'pageLength'   
 		],
         "language": {
-                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                "url": "esp.json"
             },
 		"ajax":
 		{
@@ -153,11 +153,13 @@ function guardaryeditar(e){
      	processData: false,
 
      	success: function(datos){
-			swal({
-				title: "Proceso de guardado",
+			Swal.fire({
+				title: "Procesado...",
+				position: 'top-end',
 				text: datos,
-				timer: 3000,
+				timer: 2000,
 				});
+
      		//bootbox.alert(datos);
      		mostrarform(false);
      		tabla.ajax.reload();
@@ -224,15 +226,17 @@ function mostrar(nombc){
 
 //funcion para desactivar
 function desactivar(nombc03){
-	swal({
-		title: "Este proceso desactiva el vendedor seleccionado",
+	swal.fire({
+		title: "Este proceso desactiva el dato seleccionado",
 		text: "¿Desea continuar?",
-		icon: "warning",
-		buttons: ["Cancelar", "Aceptar"],
-		dangerMode: true,
+		icon: "info",
+  		showCancelButton: true,
+  		focusConfirm: false,
+		confirmButtonText: 'Continuar',
+		cancelButtonText: `Cancelar`,
 	})
-	.then((willDelete) => {
-		if (willDelete) {
+	.then((result) => {
+		if (result.isConfirmed) {
 			$.post("../ajax/a_vendedor.php?op=desactivar", {nombc : nombc03}, function(e){
 				tabla.ajax.reload();
 			});
@@ -243,15 +247,17 @@ function desactivar(nombc03){
 }
 
 function activar(nombc03){
-	swal({
-		title: "Este proceso activa el vendedor seleccionado",
+	swal.fire({
+		title: "Este proceso activa el dato seleccionado",
 		text: "¿Desea continuar?",
-		icon: "warning",
-		buttons: ["Cancelar", "Aceptar"],
-		dangerMode: true,
+		icon: "info",
+  		showCancelButton: true,
+  		focusConfirm: false,
+		confirmButtonText: 'Continuar',
+		cancelButtonText: `Cancelar`,
 	})
-	.then((willDelete) => {
-		if (willDelete) {
+	.then((result) => {
+		if (result.isConfirmed) {
 			$.post("../ajax/a_vendedor.php?op=activar", {nombc : nombc03}, function(e){
 				tabla.ajax.reload();
 			});
@@ -260,22 +266,5 @@ function activar(nombc03){
 		}
 	});
 }
-
-
-// function Imprimir(){
-// 	var mywindow = window.open('', 'PRINT', 'height=400,width=600');
-  
-// 	mywindow.document.write('<html><head><title>' + document.title  + '</title>');
-// 	mywindow.document.write('</head><body >');
-// 	mywindow.document.write('<h3>' + 'Impresion de documento' + '</h3>');
-// 	//mywindow.document.write(document.getElementById('divContenido').innerHTML);
-// 	mywindow.document.write('</body></html>');
-  
-// 	mywindow.document.close(); // necessary for IE >= 10
-// 	mywindow.focus(); // necessary for IE >= 10*/
-  
-// 	mywindow.print();
-// 	mywindow.close();
-// }
 
 init();

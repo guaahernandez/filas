@@ -5,8 +5,9 @@ function init(){
    mostrarform(false);
    mostrarform_clave(false);
    listar();
-$("#formularioc").on("submit",function(c){
-editar_clave(c);
+   cargaSedes();
+	$("#formularioc").on("submit",function(c){
+	editar_clave(c);
 })
 
 $("#formulario").on("submit",function(e){
@@ -49,6 +50,7 @@ function limpiar(){
 	$("#imagenmuestra").attr("src","");
 	$("#imagenactual").val("");
 	$("#idusuario").val("");
+	$("#fsede").val("");
 }
 
 //funcion mostrar formulario
@@ -110,7 +112,7 @@ function listar(){
                   'pageLength'   
 		],
         "language": {
-                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                "url": "esp.json"
             },
 		"ajax":
 		{
@@ -140,7 +142,7 @@ function guardaryeditar(e){
      	processData: false,
 
      	success: function(datos){
-     		bootbox.alert(datos);
+     		//bootbox.alert(datos);
      		mostrarform(false);
      		tabla.ajax.reload();
      	}
@@ -192,16 +194,17 @@ function mostrar(idusuario){
             $("#email").val(data.email);
             $("#login").val(data.login);
             $("#codigo_persona").val(data.codigo_persona);
-            $("#imagenmuestra").show();
-            $("#imagenmuestra").attr("src","../files/usuarios/"+data.imagen);
+            //$("#imagenmuestra").show();
+            //$("#imagenmuestra").attr("src","../files/usuarios/"+data.imagen);
             $("#imagenactual").val(data.imagen);
             $("#idusuario").val(data.idusuario);
-
+			$("#fsede").val(data.n_sede);
+			$("#fsede").selectpicker('refresh');
  
 		});
-	$.post("../ajax/a_usuario.php?op=permisos&id="+idusuario, function(r){
-	$("#permisos").html(r);
-});
+	// $.post("../ajax/a_usuario.php?op=permisos&id="+idusuario, function(r){
+	// $("#permisos").html(r);
+	// });
 }
 
 function mostrar_clave(idusuario){
@@ -216,25 +219,45 @@ function mostrar_clave(idusuario){
 
 //funcion para desactivar
 function desactivar(idusuario){
-	bootbox.confirm({ message : '¿Esta seguro(a) de desactivar este dato?', closeButton : false, callback : function(result){
-		if (result) {
+	swal.fire({
+		title: "Este proceso desactiva el dato seleccionado",
+		text: "¿Desea continuar?",
+		icon: "info",
+  		showCancelButton: true,
+  		focusConfirm: false,
+		confirmButtonText: 'Continuar',
+		cancelButtonText: `Cancelar`,
+	})
+	.then((result) => {
+		if (result.isConfirmed) {
 			$.post("../ajax/a_usuario.php?op=desactivar", {idusuario : idusuario}, function(e){
-				//bootbox.alert(e);
 				tabla.ajax.reload();
 			});
+		} else {
+			//swal("Proceso terminado", "Usuario", "success");
 		}
-	}})
+	});
 }
 
 function activar(idusuario){
-	bootbox.confirm({message : "¿Esta seguro(a) de activar este dato?", closeButton : false , callback : function(result){
-		if (result) {
+	swal.fire({
+		title: "Este proceso activa el dato seleccionado",
+		text: "¿Desea continuar?",
+		icon: "info",
+  		showCancelButton: true,
+  		focusConfirm: false,
+		confirmButtonText: 'Continuar',
+		cancelButtonText: `Cancelar`,
+	})
+	.then((result) => {
+		if (result.isConfirmed) {
 			$.post("../ajax/a_usuario.php?op=activar", {idusuario : idusuario}, function(e){
-				//bootbox.alert(e);
 				tabla.ajax.reload();
 			});
+		} else {
+			//swal("Proceso terminado", "Usuario", "success");
 		}
-	}})
+	});
 }
 
 function generar(longitud)
@@ -244,6 +267,14 @@ function generar(longitud)
   var contraseña = "";
   for (i=0; i<long; i++) contraseña += caracteres.charAt(Math.floor(Math.random()*caracteres.length));
     $("#codigo_persona").val(contraseña);
+}
+
+function cargaSedes(){
+	$.post("../ajax/a_sedes.php?op=selectSede",
+		function(data)
+		{
+			$("#fsede").html(data);			
+		});
 }
 
 init();

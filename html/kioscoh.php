@@ -1,9 +1,9 @@
 <?php 
 include '../config/global_dat.php'; 
 session_start();
-$_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "192.168.56.1";
+$_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "QUIOSCO03";
 //$_SESSION["im"] = (isset($_GET["im"])) ? $_GET["im"] : "EPSON TM-T88V Receipt";
-$_SESSION["agenci"] = (isset($_GET["ag"])) ? $_GET["ag"] : "1";//ver si cuando se carga en aplic envia la agencia
+$_SESSION["agenci"] = (isset($_GET["ag"])) ? $_GET["ag"] : "S-03";//ver si cuando se carga en aplic envia la agencia
 $_SESSION["formatovideo"] = "vertical";
 ?>
 <!DOCTYPE html>
@@ -69,7 +69,7 @@ $_SESSION["formatovideo"] = "vertical";
 
     .slide {
         width: 384px;
-        height: 683px;
+        height: 678px;
         background-color: #f6f7fb;
         display: inline-block;
         margin: 0;
@@ -106,10 +106,10 @@ $_SESSION["formatovideo"] = "vertical";
 }
 
 .Mask {
-  width: 110px;
-  height: 128px;
+  width: 160px;
+  height: 180px;
   margin-left: 0px;
-  margin-bottom: 25px;
+  margin-bottom: 45px;
   border-radius: 20px;
   border: solid 1px #0f3e7f;
   color: #0f3e7f;
@@ -117,8 +117,8 @@ $_SESSION["formatovideo"] = "vertical";
 }
 
 .Masknull {
-  width: 110px;
-  height: 128px;
+  width: 160px;
+  height: 180px;
   margin-left: 0px;
   margin-bottom: 25px;
 }
@@ -129,9 +129,9 @@ $_SESSION["formatovideo"] = "vertical";
 }
 
 .Oval {
-  width: 55px;
-  height: 55px;
-  margin: 10px 27.5px 0px 27.5px;
+  width: 80px;
+  height: 80px;
+  margin: 10px 40px 0px 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,7 +141,7 @@ $_SESSION["formatovideo"] = "vertical";
 }
 
 .imgOval{
-  width: 25px;
+  width: 45px;
 }
 
 .tituloMask {
@@ -149,9 +149,9 @@ $_SESSION["formatovideo"] = "vertical";
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 36.5px;
+  height: 63px;
   font-family: 'Futura', Arial, Helvetica, sans-serif;
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 900;
   font-stretch: normal;
   font-style: normal;
@@ -173,11 +173,11 @@ $_SESSION["formatovideo"] = "vertical";
 }
 
 .select {
-  width: 110px;
+  width: 160px;
   height: 25px;
   background-color: #fe2312;
   font-family: Futurabold;
-  font-size: 11px;
+  font-size: 13px;
   font-style: normal;
   letter-spacing: 1px;
   color: #fff;
@@ -210,10 +210,10 @@ $_SESSION["formatovideo"] = "vertical";
 
 /**botones pequeños */
 .MaskP {
-  width: 110px;
-  height: 128px;
+  width: 160px;
+  height: 180px;
   margin-left: 0px;
-  margin-bottom: 25px;
+  margin-bottom: 35px;
   border-radius: 20px;
   border: solid 1px #0f3e7f;
   color: #0f3e7f;
@@ -225,16 +225,16 @@ $_SESSION["formatovideo"] = "vertical";
   color: #fff;
 }
 .MasknullP {
-  width: 110px;
-  height: 128px;
+  width: 160px;
+  height: 180px;
   margin-left: 0px;
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 .OvalP {
-  width: 55px;
-  height: 55px;
-  margin: 10px 27.5px 0px 27.5px;
+  width: 80px;
+  height: 80px;
+  margin: 10px 40px 0px 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -248,22 +248,22 @@ $_SESSION["formatovideo"] = "vertical";
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 36.5px;
+  height: 63px;
   font-family: 'Futura', Arial, Helvetica, sans-serif;
-  font-size: 10px;
+  font-size: 16px;
   font-weight: 900;
   font-stretch: normal;
   font-style: italic;
   line-height: 1.2;
   letter-spacing: normal;
   text-align: center;
-  padding-right: 5px;
-  padding-left: 5px;
+  /* padding-right: 5px; */
+  /* padding-left: 5px; */
   /* color: #0f3e7f; */
 }
 
 .selectP {
-  width: 110px;
+  width: 160px;
   height: 25px;
   /* margin: 0px 30px 30px 70px; */
   /* padding: 12.6px 44px 8px 60px; */
@@ -300,8 +300,8 @@ $_SESSION["formatovideo"] = "vertical";
 .circular--landscapeP {
   display: inline-block;
   position: relative;
-  width: 55px;
-  height: 49px;
+  width: 80px;
+  height: 75px;
   overflow: hidden;
   border-radius: 50%;
 }
@@ -317,7 +317,22 @@ $_SESSION["formatovideo"] = "vertical";
   padding-top: 90px;
   margin-left: -70px;
 }
-
+.numfac{
+  font-family: 'Futura', Arial, Helvetica, sans-serif;
+  font-size: 25px;
+  width: 400px;
+  text-align: center;
+  border: 0;
+  border-bottom: 1px solid;
+  background-color: transparent;
+  /* padding-top: 50px;
+  padding-bottom: 60px; */
+  height: 50px;
+  margin-left: -70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .tituloqr {
   font-family: 'Futura', Arial, Helvetica, sans-serif;
   font-size: 25px;
@@ -335,6 +350,12 @@ $_SESSION["formatovideo"] = "vertical";
 .arrowqr{
   width: 40px;
   padding-bottom: 80px;
+  margin-left: -70px;
+}
+
+.arrowbr{
+  width: 40px;
+  padding-bottom: 30px;
   margin-left: -70px;
 }
 
@@ -377,9 +398,7 @@ $_SESSION["formatovideo"] = "vertical";
             </td>
         </tr>       
     </table>
-          
     
-
     <script
         src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->

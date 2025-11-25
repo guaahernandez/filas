@@ -7,10 +7,18 @@ function init(){
 
 
 function totvisitas(){
+	nsede = $("#fsede option:selected").text();	
 	isede = $("#fsede").val();
 	iarea = $("#farea").val();
 	fecini = $("#fecini").val();
 	fecfin = $("#fecfin").val();
+	titulo = "Turnos atendidos del " + fecini + " al " + fecfin
+
+	if(nsede == "Todas...") {
+		nsede = "";
+	}else{
+		titulo += ", " + nsede
+	}
 	wher = " 1=1";
 	
 	if(isede != '0') wher += " and e.n_sede='" + isede + "'";
@@ -20,23 +28,24 @@ function totvisitas(){
 		function(data)
 		{
 			$("#totvisitas").html(data);
-			totcompras(wher);
+			totcompras(wher, fecini, fecfin);
 			graficomes(wher);
 			graficomes2(wher);
 			completo(wher);
 			turnostot(wher);
-			turnosetapas(wher, "aturnosetapas");
+			turnosetapas(wher, "","aturnosetapas");
 			turnosetapas2(wher);
 			canceladosxetapa(wher);
-			turnosxvendedor(wher);
+			turnosxvendedor(wher, fecini, fecfin);
 			tiempopromventas(wher);
 			emisionesporhora(wher);	
-			datosresumidos(wher);
+			datosresumidos(wher, fecini, fecfin);
+			promedioatendidos(wher);
 		})
 }
 
 function turnosetapas_(){
-	isede = $("#fsede").val();
+	sede = $("#fsede").val();
 	iarea = $("#farea").val();
 	fecini = $("#fecini").val();
 	fecfin = $("#fecfin").val();
@@ -45,14 +54,14 @@ function turnosetapas_(){
 	if(isede != '0') wher += " and e.n_sede='" + isede + "'";
 	if(iarea != '0') wher += " and e.destin='" + iarea + "'";
 	wher += " and e.fechac BETWEEN '" + fecini + "' and '" + fecfin + " 23:59:59'";
-	$.post("../ajax/a_dashboard.php?op=turnosetapas",{wher : wher, name : "aturnosetapas_m"},
+	$.post("../ajax/a_dashboard.php?op=turnosetapas",{wher : wher, sede: nsede, name : "aturnosetapas_m"},
 	function(data)
 	{
 		$("#divdatos").html(data);
 	})
 }
-function totcompras(wher){
-	$.post("../ajax/a_dashboard.php?op=totcompras",{wher : wher},
+function totcompras(wher, fini, ffin){
+	$.post("../ajax/a_dashboard.php?op=totcompras",{wher : wher, fini : fini, ffin : ffin},
 	function(data)
 	{
 		$("#totcompras").html(data);
@@ -134,8 +143,8 @@ function turnostot(wher){
 	})
 }
 
-function turnosetapas(wher, name){
-	$.post("../ajax/a_dashboard.php?op=turnosetapas",{wher : wher, name : name},
+function turnosetapas(wher, nsede, name){
+	$.post("../ajax/a_dashboard.php?op=turnosetapas",{wher : wher, sede: nsede, name : name},
 	function(data)
 	{
 		$("#turnosetapas").html(data);
@@ -158,8 +167,8 @@ function canceladosxetapa(id_eve){
 	})
   }
 
-function turnosxvendedor(id_eve){
-	$.post("../ajax/a_dashboard.php?op=turnosxvendedor",{wher : wher},
+function turnosxvendedor(wher, fini, ffin){
+	$.post("../ajax/a_dashboard.php?op=turnosxvendedor",{wher : wher, fini : fini, ffin : ffin},
 	function(data)
 	{
 		$("#turnosxvendedor").html(data);
@@ -171,6 +180,14 @@ function turnosxvendedor(id_eve){
 	function(data)
 	{
 		$("#tiempopromventas").html(data);
+	})
+  }
+
+  function promedioatendidos(){
+	$.post("../ajax/a_dashboard.php?op=promedioatendidos",{wher : wher},
+	function(data)
+	{
+		$("#promedioatendidos").html(data);
 	})
   }
 
@@ -189,7 +206,7 @@ function gridtiemposxubic(pDest){
 	wher += " and e.fechac BETWEEN '" + fecini + "' and '" + fecfin + " 23:59:59'";
 	
 	if(pDest != ''){
-		wher += " and d.ubicac='" + pDest + "'";
+		wher += " and d.ubicac in(" + pDest + ")";
 	}
 
 	$.post("../ajax/a_dashboard.php?op=gridtiemposxubic",{wher : wher},
@@ -200,6 +217,9 @@ function gridtiemposxubic(pDest){
 	}
 
 function griddatostotal(pNombre, data){
+	fini = $("#fecini").val();
+	ffin = $("#fecfin").val() + ' 23:59:59';
+	tit = titulo;
 	wher = " 1=1";	
 	if(isede != '0') wher += " and e.n_sede='" + isede + "'";
 	//if(iarea != '0') wher += " and e.destin='" + iarea + "'";
@@ -207,16 +227,30 @@ function griddatostotal(pNombre, data){
 	
 	if(pNombre != ''){
 		wher += " and e.agnomb='" + pNombre + "' and e.destin='V'";
+		tit += ", por " + pNombre;
 	}
-
-	$.post("../ajax/a_dashboard.php?op=griddatostotal",{wher : wher},
+	
+	$.post("../ajax/a_dashboard.php?op=griddatostotal",{wher : wher, titulo : tit, fini: fini, ffin: ffin},
 	function(data)
 	{
 		$("#divdatos").html(data);
 	})
 	}
 
-function datosresumidos(wher){
+function prestamo_consulta(){
+	wher = " 1=1";	
+	if(isede != '0') wher += " and e.n_sede='" + isede + "'";
+	//if(iarea != '0') wher += " and e.destin='" + iarea + "'";
+	wher += " and e.fechac BETWEEN '" + fecini + "' and '" + fecfin + " 23:59:59'";
+	
+	$.post("../ajax/a_dashboard.php?op=prestamo_consulta",{wher : wher},
+	function(data)
+	{
+		$("#divdatos").html(data);
+	})
+	}
+	
+function datosresumidos(wher, fini, ffin){
 	$.post("../ajax/a_dashboard.php?op=esperageneral",{wher : wher},
 	function(data)
 	{
@@ -228,6 +262,12 @@ function datosresumidos(wher){
 	{
 		$("#atenciongeneral").html(data);
 	})
+
+	$.post("../ajax/a_dashboard.php?op=respuestageneral",{wher : wher},
+	function(data)
+	{
+		$("#respuestageneral").html(data);
+	})
 	
 	$.post("../ajax/a_dashboard.php?op=porcentajecompra",{wher : wher},
 	function(data)
@@ -235,10 +275,22 @@ function datosresumidos(wher){
 		$("#porcentajecompra").html(data);
 	})
 	
-	$.post("../ajax/a_dashboard.php?op=ingresoporventas",{wher : wher},
+	$.post("../ajax/a_dashboard.php?op=ingresoporventas",{wher : wher, fini: fini, ffin: ffin},
 	function(data)
 	{
 		$("#ingresoporventas").html(data);
+	})
+
+	$.post("../ajax/a_dashboard.php?op=prestamo_cant",{wher : wher},
+	function(data)
+	{
+		$("#prestamo_cant").html(data);
+	})
+
+	$.post("../ajax/a_dashboard.php?op=prestamo_prom",{wher : wher},
+	function(data)
+	{
+		$("#prestamo_prom").html(data);
 	})
 }
 
@@ -249,16 +301,6 @@ function cargaSedes(){
 			$("#fsede").html(data);
 			
 		});
-	// var fecha = new Date(); //Fecha actual
-	// var mes = fecha.getMonth()+1; //obteniendo mes
-	// var dia = fecha.getDate(); //obteniendo dia
-	// var ano = fecha.getFullYear(); //obteniendo año
-	// if(dia<10)
-	// 	dia='0'+dia; //agrega cero si el menor de 10
-	// if(mes<10)
-	// 	mes='0'+mes //agrega cero si el menor de 10
-	// document.getElementById('fecini').value=ano+"-"+mes+"-01";
-	// document.getElementById('fecfin').value=ano+"-"+mes+"-"+dia;
 }
 
 function MoverFecha(pOp){

@@ -64,9 +64,13 @@ switch ($_GET["op"]) {
 
 		case 'selectSede':
 			$rspta=$msede->select();
-			echo '<option value="0">Todas...</option>';
+			if($_SESSION["n_sede"]=='0') echo '<option value="0">Todas...</option>';
 			while ($reg=$rspta->fetch_object()) {
-				echo '<option value=' . $reg->codigo.'>'.$reg->codigo.' - '.$reg->nombre.'</option>';
+				if($_SESSION["n_sede"]!='0') {
+					if($_SESSION["n_sede"] == $reg->codigo) echo '<option selected value=' . $reg->codigo.'>'.$reg->codigo.' - '.$reg->nombre.'</option>';
+				}else{
+					echo '<option value=' . $reg->codigo.'>'.$reg->codigo.' - '.$reg->nombre.'</option>';
+				}				
 			}
 			break;
 }

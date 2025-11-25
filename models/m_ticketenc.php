@@ -10,10 +10,30 @@ public function __construct(){
 }
 
 //metodo insertar regiustro
-public function insertar($agenci, $ticket, $vended, $prefer, $destin, $tipoco){
+public function insertar($agenci, $ticket, $vended, $prefer, $destin, $tipoco, $factur="", $tidoc="", $monto=""){
 		date_default_timezone_set('America/Costa_Rica');
-	
-	$sql="INSERT INTO ticket_enc (agenci, ticket, vended, prefer, destin, fechac, horenv) VALUES ('$agenci','$ticket','$vended', '$prefer', '$tipoco', NOW(),NOW())";
+	if($tipoco=="PV") $tipoco="V"; //venta
+	if($tipoco=="PE") $tipoco="E"; //entrega
+	if($tipoco=="PC") $tipoco="C"; //cajas
+	if($tipoco=="PGC") $tipoco="GC"; //guaca club
+
+	$sql="INSERT INTO ticket_enc (n_sede, ticket, vended, prefer, destin, fechac, horenv, factur, monto, tidoc) VALUES (
+		'$agenci', '$ticket', '$vended', $prefer, '$tipoco', NOW(), NOW(), '$factur', $monto, '$tidoc')";
+		//echo $sql;
+	return ejecutarConsulta_retornarID($sql);
+}
+
+public function insertardet($agenci, $ticket, $segund, $ubicac, $destin, $codigt, $prefac, $factur, $montof, $estacion){
+	$sql="INSERT INTO ticket_det (n_sede, ticket, fechac, segund, ubicac, destin, codigt, prefac, factur, montof, estacion) VALUES (
+	'$agenci','$ticket', NOW(),'$segund', '$ubicac', '$destin', $codigt, '$prefac', '$factur', $montof, $estacion)";
+	//echo $sql;
+	return ejecutarConsulta($sql);
+}
+
+public function guarda_fact_ticket($codigt, $agenci, $ticket, $factur){
+	$sql = "INSERT INTO `factura_entrega`(`codtrans`, `sucursal`, `destino`, `estado`, `tiquete`, `factura`, `estadot`)";
+	$sql .= " VALUES ($codigt, '$agenci', 'E', '3', '".trim($ticket)."', '$factur', 'PE');";
+	echo $sql;
 	return ejecutarConsulta($sql);
 }
 
@@ -45,21 +65,41 @@ public function mostrar($codigo){
 	return ejecutarConsultaSimpleFila($sql);
 }
 
+public function obtener_imprimir($codigo){
+	$sql="SELECT DISTINCT e.`id`, e.`ticket`, IFNULL(v2.`nombl03`, v.`nombl03`) vended, c.`descrip` agencia, e.`fechac`, d.`vengoa`, td.factur
+	FROM `ticket_enc` e
+	LEFT JOIN ticket_det td on td.n_sede=e.n_sede and td.codigt=e.id
+	LEFT JOIN `sedes` c ON c.`sede`=e.`n_sede`
+	LEFT JOIN `opmenu_det` d ON d.`codigo`=e.`destin`
+	LEFT JOIN `cias_vendedores` v ON v.`nombc03`=e.`vended`
+	LEFT JOIN `cias_vendedores_img` v2 ON v2.`nombc03`=e.`vended`
+	WHERE e.`id`='$codigo'";
+	return ejecutarConsultaSimpleFila($sql);
+}
+
 //listar registros
 public function listar_det_pant(){
+	$destin = str_replace(",","','",$_SESSION["destin"]);
+
 	// $sql="SELECT * FROM ticket_det where agenci='$agenci' and ubicac='$ubicac' and estado='1' ORDER BY consec desc limit 5";
-	$sql = "SELECT t.*, h.n_sede as 'agencia' FROM ticket_det t
-	INNER JOIN mhosts h ON h.`n_sede`=t.`n_sede` AND h.`ubicac`=t.`ubicac`
-	WHERE h.`dir_ip`='".$_SESSION["ip"]."' AND t.estado='1' and t.fechac>date(NOW()) ORDER BY t.consec DESC LIMIT 5;";
+	$sql = "SELECT t.*, h.n_sede as 'agencia', IFNULL(u.`ver_numero`,1)ver_numero FROM ticket_det t
+	INNER JOIN mhosts h ON h.`n_sede`=t.`n_sede` AND h.`ubicac`=t.`ubicac`";
+	//lista por destino, V=ventas, E=entrega, GC=Guaca Club
+	$sql .= " inner join ticket_enc e on e.n_sede=t.n_sede and e.id=t.codigt and e.destin IN ('".$destin."')";
+	$sql .= " LEFT JOIN estacion u ON u.`n_sede`=t.`n_sede` AND t.`estacion`=u.`estacion`";
+	$sql .= " WHERE h.`dir_ip`='".$_SESSION["ip"]."' AND t.estado='1' and t.fechac>date(NOW()) ORDER BY t.consec DESC LIMIT 5;";
 	//echo $sql;
 	return ejecutarConsulta($sql);
 }
 
 //listar registros
 public function l_pant_entreg(){
-	$sql = "SELECT t.*, h.n_sede as 'agencia' FROM ticket_det t
+	$sql = "SELECT t.*, h.n_sede AS 'agencia'/*,(SELECT MAX(FACTUR) FROM ticket_det WHERE codigt=t.`codigt`)factura*/, e.factur factura
+	, IF(IFNULL((SELECT 1 FROM ticket_det WHERE codigt=t.`codigt` AND ubicac=9 limit 1),'')='','PROCESO','TERMINADO')estadof 
+	FROM ticket_det t
 	INNER JOIN mhosts h ON h.`n_sede`=t.`n_sede` AND h.`ubicac`=t.`ubicac`
-	WHERE h.`dir_ip`='".$_SESSION["ip"]."' AND t.estado='1' and t.fechac>date(NOW()) ORDER BY t.consec DESC LIMIT 5;";
+	LEFT JOIN `ticket_enc` e ON e.`id`=t.`codigt`
+	WHERE h.`dir_ip`='".$_SESSION["ip"]."' AND t.estado='1' and t.fechac>date(NOW()) ORDER BY t.consec DESC LIMIT 8;";
 	//echo $sql;
 	return ejecutarConsulta($sql);
 }

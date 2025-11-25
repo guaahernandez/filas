@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+  </head>
+  <body>
+    <div id="chart" style="width: 680px;"></div>
+  </body>
+  <script type="text/javascript">
+    var options = {
+          series: [
+          {
+            data: [
+              {
+                x: 'Kiosco-Ventas',
+                y: [1, 2]
+              },
+              {
+                x: 'Kiosco-Fin Ventas',
+                y: [1, 5]
+              },
+              {
+                x: 'Kiosco-Fin Cajas',
+                y: [1, 7]
+              }
+            ]
+          }
+        ],
+          chart: {
+          height: 390,
+          type: 'rangeBar',
+          zoom: {
+            enabled: true
+          }
+        },
+        colors: ['#205589', '#E12227'],
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            isDumbbell: true,
+            dumbbellColors: [['#205589', '#E12227']]
+          }
+        },
+        title: {
+          text: 'Roles'
+        },
+        legend: {
+          show: true,
+          showForSingleSeries: true,
+          position: 'top',
+          horizontalAlign: 'left',
+          customLegendItems: ['Inicio', 'Fin']
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            gradientToColors: ['#E12227'],
+            inverseColors: false,
+            stops: [0, 100]
+          }
+        },
+        grid: {
+          xaxis: {
+            lines: {
+              show: true
+            }
+          },
+          yaxis: {
+            lines: {
+              show: false
+            }
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();  
+  </script>
+</html>

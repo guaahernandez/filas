@@ -62,7 +62,7 @@ function listar(){
 			  'pageLength'   
 		],
 		"language": {
-			"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+			"url": "esp.json"
 		},
 		"ajax":
 		{
@@ -120,26 +120,46 @@ function mostrar(id){
 
 
 //funcion para desactivar
-function desactivar(id){
-	bootbox.confirm({ message : '¿Esta seguro(a) de desactivar este dato?', closeButton : false, callback : function(result){
-		if (result) {
-			$.post("../ajax/a_textos.php?op=desactivar", {id : id}, function(e){
-				//bootbox.alert(e);
+function desactivar(codigo){
+	swal.fire({
+		title: "Este proceso desactiva el dato seleccionado",
+		text: "¿Desea continuar?",
+		icon: "info",
+  		showCancelButton: true,
+  		focusConfirm: false,
+		confirmButtonText: 'Continuar',
+		cancelButtonText: `Cancelar`,
+	})
+	.then((result) => {
+		if (result.isConfirmed) {
+			$.post("../ajax/a_textos.php?op=desactivar", {codigo : codigo}, function(e){
 				tabla.ajax.reload();
 			});
+		} else {
+			//swal("Proceso terminado", "Usuario", "success");
 		}
-	}});
+	});
 }
 
-function activar(id){
-	bootbox.confirm({message : "¿Esta seguro(a) de activar este dato?", closeButton : false , callback : function(result){
-		if (result) {
-			$.post("../ajax/a_textos.php?op=activar" , {id : id}, function(e){
-				//bootbox.alert(e);
+function activar(codigo){
+	swal.fire({
+		title: "Este proceso activa el dato seleccionado",
+		text: "¿Desea continuar?",
+		icon: "info",
+  		showCancelButton: true,
+  		focusConfirm: false,
+		confirmButtonText: 'Continuar',
+		cancelButtonText: `Cancelar`,
+	})
+	.then((result) => {
+		if (result.isConfirmed) {
+			$.post("../ajax/a_textos.php?op=activar", {codigo : codigo}, function(e){
 				tabla.ajax.reload();
 			});
+		} else {
+			//swal("Proceso terminado", "Usuario", "success");
 		}
-	}});
+	});
 }
 
 async function getcias(){

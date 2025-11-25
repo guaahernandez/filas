@@ -18,4 +18,22 @@ define("DB_PASSWORD", "argcmy@10!");
 define("DB_ENCODE", "utf8mb4");
 
 date_default_timezone_set('America/Costa_Rica');
+
+$db = [
+    'host' => DB_HOST,
+    'username' => DB_USERNAME,
+    'password' => DB_PASSWORD,
+    'db' => DB_NAME
+];
+function connect($db)
+  {
+      try {
+          $conn = new PDO("mysql:host={$db['host']};dbname={$db['db']};charset=utf8mb4", $db['username'], $db['password']);
+          // set the PDO error mode to exception
+          $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+          return $conn;
+      } catch (PDOException $exception) {
+          exit($exception->getMessage());
+      }
+  }
  ?>

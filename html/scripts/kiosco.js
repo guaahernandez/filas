@@ -2,8 +2,10 @@ var tabla;
 
 //funcion que se ejecuta al inicio
 function init(){   
-    opmenu_enc('principal');  
+    opmenu_enc('principal');
+    //opmenu_enc('vendedores');  
     cargavideos();
+    //document.documentElement.requestFullscreen();
 }
 
 function opmenu_enc(ubmenu, prefer){

@@ -102,17 +102,23 @@
               </div>
               <div class="form-group col-lg-6 col-md-6 col-xs-12">
                 <label for="">Login(*):</label>
-                <input class="form-control" type="text" name="login" id="login" maxlength="20" placeholder="nombre de usuario" required>
+                <input autocomplete="off" class="form-control" type="text" name="login" id="login" maxlength="20" placeholder="nombre de usuario" required>
               </div>
-              <div class="form-group col-lg-6 col-md-6 col-xs-12" id="claves">
-                <label for="">Clave de ingreso(*):</label>
-                <input class="form-control" type="password" name="clave" id="clave" maxlength="64" placeholder="Clave">
+              <div class="form-group col-lg-6 col-md-6 col-xs-12">
+                <label for="">Clave de ingreso:</label>
+                <input autocomplete="off" class="form-control" type="password" name="clave" id="clave" maxlength="64" placeholder="Clave">
               </div>
-              <div class="form-group col-lg-6 col-md-6 col-xs-12" id="claves">
-                <label for="">Código Colaborador(*):</label>
-                <!--<button class="btn btn-info" type="button" onclick="generar(6);" >Generar</button>-->
+              <div class="form-group col-lg-6 col-md-6 col-xs-12">
+                <label for="">Sede:</label>
+                <select class="form-control" name="fsede" id="fsede">
+                  <option value="1">Sede Central</option>
+                </select>
+              </div>
+
+              <!-- <div class="form-group col-lg-6 col-md-6 col-xs-12" id="claves">
+                <label for="">Código Colaborador:</label>
                 <input class="form-control" type="text" name="codigo_persona" id="codigo_persona" maxlength="64" placeholder="Código">
-              </div>
+              </div> -->
               <div class="form-group col-lg-6 col-md-6 col-xs-12">
                 <label for="">Imagen:</label>
                 <input class="form-control filestyle" data-buttonText="Seleccionar foto" type="file" name="imagen" id="imagen">

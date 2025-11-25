@@ -1,9 +1,9 @@
 <?php 
 include '../config/global_dat.php'; 
 session_start();
-$_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "192.168.56.1";
+$_SESSION["ip"] = (isset($_GET["ip"])) ? $_GET["ip"] : "MI_DELL";
 //$_SESSION["im"] = (isset($_GET["im"])) ? $_GET["im"] : "EPSON TM-T88V Receipt";
-$_SESSION["agenci"] = (isset($_GET["ag"])) ? $_GET["ag"] : "1";//ver si cuando se carga en aplic envia la agencia
+$_SESSION["agenci"] = (isset($_GET["ag"])) ? $_GET["ag"] : "S-03";//ver si cuando se carga en aplic envia la agencia
 $_SESSION["formatovideo"] = "horizontal";
 ?>
 <!DOCTYPE html>
