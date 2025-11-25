@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="keywords"
-      content="control filas la guaca"
+      content="control de filas la guaca"
     />
     <meta
       name="description"
