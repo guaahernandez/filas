@@ -83,11 +83,11 @@ public function listar_det_pant(){
 
 	// $sql="SELECT * FROM ticket_det where agenci='$agenci' and ubicac='$ubicac' and estado='1' ORDER BY consec desc limit 5";
 	$sql = "SELECT t.*, h.n_sede as 'agencia', IFNULL(u.`ver_numero`,1)ver_numero FROM ticket_det t
-	INNER JOIN mhosts h ON h.`n_sede`=t.`n_sede` AND h.`ubicac`=t.`ubicac`";
+	INNER JOIN mhosts h ON h.`n_sede`=t.`n_sede` AND h.`ubicac`=t.`ubicac` and h.`dir_ip`='".$_SESSION["ip"]."'";
 	//lista por destino, V=ventas, E=entrega, GC=Guaca Club
 	$sql .= " inner join ticket_enc e on e.n_sede=t.n_sede and e.id=t.codigt and e.destin IN ('".$destin."')";
 	$sql .= " LEFT JOIN estacion u ON u.`n_sede`=t.`n_sede` AND t.`estacion`=u.`estacion`";
-	$sql .= " WHERE h.`dir_ip`='".$_SESSION["ip"]."' AND t.estado='1' and t.fechac>date(NOW()) ORDER BY t.consec DESC LIMIT 5;";
+	$sql .= " WHERE t.`n_sede`=h.`n_sede` AND t.fechac>date(NOW()) and t.estado='1' ORDER BY t.consec DESC LIMIT 5;";
 	//echo $sql;
 	return ejecutarConsulta($sql);
 }
@@ -97,9 +97,9 @@ public function l_pant_entreg(){
 	$sql = "SELECT t.*, h.n_sede AS 'agencia'/*,(SELECT MAX(FACTUR) FROM ticket_det WHERE codigt=t.`codigt`)factura*/, e.factur factura
 	, IF(IFNULL((SELECT 1 FROM ticket_det WHERE codigt=t.`codigt` AND ubicac=9 limit 1),'')='','PROCESO','TERMINADO')estadof 
 	FROM ticket_det t
-	INNER JOIN mhosts h ON h.`n_sede`=t.`n_sede` AND h.`ubicac`=t.`ubicac`
+	INNER JOIN mhosts h ON h.`n_sede`=t.`n_sede` AND h.`ubicac`=t.`ubicac` and h.`dir_ip`='".$_SESSION["ip"]."'
 	LEFT JOIN `ticket_enc` e ON e.`id`=t.`codigt`
-	WHERE h.`dir_ip`='".$_SESSION["ip"]."' AND t.estado='1' and t.fechac>date(NOW()) ORDER BY t.consec DESC LIMIT 8;";
+	WHERE t.fechac>date(NOW()) AND t.estado='1' ORDER BY t.consec DESC LIMIT 8;";
 	//echo $sql;
 	return ejecutarConsulta($sql);
 }

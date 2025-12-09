@@ -27,7 +27,7 @@ function listar_det_pant(agenci, ubicac){
                 CambiaTexto = 0;
             }
         }); 
-    },3000);
+    },4000);
 }
 
 function cargavideos(){

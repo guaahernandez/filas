@@ -659,7 +659,7 @@ switch ($_GET["op"]) {
             SELECT e.`id`, e.`fechac` FROM `ticket_enc` e 
             INNER JOIN `ticket_det` d ON d.`n_sede`=e.`n_sede` AND d.`codigt`=e.`id` AND d.`ubicac`='2'
             WHERE $wher GROUP BY id) AS s GROUP BY DATE_FORMAT(fechac,'%y%m%d')) AS d;";
-        //    echo $sql;
+            echo $sql;
         $fila = ejecutarConsultaSimpleFila($sql);
         echo '<h2>'.$fila["dato"].'</h2>';
         break;
