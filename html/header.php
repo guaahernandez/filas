@@ -32,9 +32,8 @@
       href="../assets/images/favicon.png"
     />
     <!-- Custom CSS -->
-    <!-- <link href="../assets/libs/flot/css/float-chart.css" rel="stylesheet" /> -->
-    <!-- Custom CSS -->
     <link href="../dist/css/style.min.css" rel="stylesheet" />
+    <link href="../dist/css/graficos.css" rel="stylesheet" />
     <!-- <link href="../dist/css/bootstrap.min.css" rel="stylesheet" /> -->
     <!-- Bootstrap tether Core JavaScript -->
     <script src="../assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -236,6 +235,16 @@
                 >
               </li>
 
+              <li class="sidebar-item">
+                  <a
+                    class="sidebar-link waves-effect waves-dark sidebar-link"
+                    href="usuarios_logueados.php"
+                    aria-expanded="false"
+                    ><i class="mdi mdi-account-key"></i
+                    ><span class="hide-menu">Usuarios Logueados</span></a
+                  >
+                </li>
+                
               <?php if($_SESSION["cftidtipousuario"] != 4 and $_SESSION["cftidtipousuario"] != 3 and $_SESSION["cftidtipousuario"] != 2){ ?> <!--oculta opciones del menu -->
                 <li class="sidebar-item">
                   <a
@@ -256,6 +265,8 @@
                     ><span class="hide-menu">Usuarios</span></a
                   >
                 </li>
+                
+                
                 
                 <li class="sidebar-item">
                   <a

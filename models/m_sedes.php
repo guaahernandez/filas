@@ -1,63 +1,103 @@
 <?php 
-//incluir la conexion de base de datos
+/**
+ * ============================================================================
+ * Sistema de Control de Filas - Modelo de Sedes / Sucursales (m_sedes.php)
+ * ============================================================================
+ * Este modelo gestiona las operaciones de base de datos sobre la tabla 'sedes',
+ * controlando las sucursales físicas donde opera el sistema de control de filas (filas = 1).
+ * 
+ * Funcionalidades:
+ * - Insertar o reemplazar sedes mediante la instrucción REPLACE INTO.
+ * - Activar y desactivar sedes.
+ * - Consultar información individual, listado completo y datos para selectores.
+ * ============================================================================
+ */
+
+// Inclusión del archivo de conexión a la base de datos
 require "../config/Conexion.php";
-class Sede{
 
+class Sede {
 
-	//implementamos nuestro constructor
-public function __construct(){
+	/**
+	 * Constructor de la clase
+	 */
+	public function __construct() {
 
-}
+	}
 
-//metodo insertar regiustro
-public function replace($id, $sede, $descrip, $direcci, $grupo){
+	/**
+	 * Inserta o reemplaza un registro de sede en la tabla 'sedes'
+	 * 
+	 * @param int    $id      ID de la sede
+	 * @param string $sede    Código de la sede (ej: 'S-01', 'S-02')
+	 * @param string $descrip Nombre descriptivo de la sucursal
+	 * @param string $direcci Dirección física
+	 * @param string $grupo   Grupo o zona geográfica
+	 * @return bool
+	 */
+	public function replace($id, $sede, $descrip, $direcci, $grupo) {
 		date_default_timezone_set('America/Costa_Rica');
-	//$fechacreada=date('Y-m-d H:i:s');
-	$sql="REPLACE INTO sedes (id, sede, descrip, direcci, grupo, filas) VALUES ('$id','$sede','$descrip','$direcci','$grupo',1)";
-	return ejecutarConsulta($sql);
-}
+		$sql = "REPLACE INTO sedes (id, sede, descrip, direcci, grupo, filas) VALUES ('$id', '$sede', '$descrip', '$direcci', '$grupo', 1)";
+		return ejecutarConsulta($sql);
+	}
 
-// public function editar($id,$sede, $descrip, $direcci, $grupo){
-// 	$sql="UPDATE sedes SET sede='$sede',descrip='$descrip',direcci='$direcci', grupo='$grupo'  
-// 	WHERE id='$id'";
-// 	return ejecutarConsulta($sql);
-// }
-public function desactivar($id){
-	$sql="UPDATE sedes SET estado='0' WHERE id='$id' and filas=1";
-	return ejecutarConsulta($sql);
-}
-public function activar($id){
-	$sql="UPDATE sedes SET estado='1' WHERE id='$id' and filas=1";
-	return ejecutarConsulta($sql);
-}
+	/**
+	 * Desactiva una sede (estado = 0)
+	 */
+	public function desactivar($id) {
+		$sql = "UPDATE sedes SET estado='0' WHERE id='$id' and filas=1";
+		return ejecutarConsulta($sql);
+	}
 
-//metodo para mostrar registros
-public function mostrar($id){
-	$sql="SELECT * FROM sedes WHERE id='$id' and filas=1";
-	return ejecutarConsultaSimpleFila($sql);
+	/**
+	 * Activa una sede (estado = 1)
+	 */
+	public function activar($id) {
+		$sql = "UPDATE sedes SET estado='1' WHERE id='$id' and filas=1";
+		return ejecutarConsulta($sql);
+	}
+
+	/**
+	 * Obtiene los datos de una sede específica
+	 * 
+	 * @param int $id ID de la sede
+	 * @return array
+	 */
+	public function mostrar($id) {
+		$sql = "SELECT * FROM sedes WHERE id='$id' and filas=1";
+		return ejecutarConsultaSimpleFila($sql);
+	}
+
+	/**
+	 * Lista todas las sedes habilitadas para el control de filas
+	 * 
+	 * @return resource|mysqli_result
+	 */
+	public function listar() {
+		$sql = "SELECT * FROM sedes WHERE filas=1";
+		return ejecutarConsulta($sql);
+	}
+
+	/**
+	 * Lista las sedes activas para elementos <select>
+	 * 
+	 * @return resource|mysqli_result
+	 */
+	public function select() {
+		$sql = "SELECT s.`sede` codigo, s.`descrip` nombre FROM sedes s WHERE s.estado=1 and s.filas=1";
+		return ejecutarConsulta($sql);
+	}
+
+	/**
+	 * Consulta el nombre de una sede por su ID
+	 * 
+	 * @param int $id ID de la sede
+	 * @return resource|mysqli_result
+	 */
+	public function regresaRolSedes($id) {
+		$sql = "SELECT nombre FROM sedes WHERE id='$id' and filas=1";		
+		return ejecutarConsulta($sql);
+	}
+
 }
-
-//listar registros
-public function listar(){
-	$sql="SELECT * FROM sedes where filas=1";
-	return ejecutarConsulta($sql);
-}
-//listar y mostrar en selct
-public function select(){
-	//$sql="SELECT * FROM sedes where estado = 1 and filas=1";
-	$sql="SELECT sede000 codigo, IFNULL(s.`descrip`,nomco00)nombre FROM tienda.pcia p 
-	LEFT JOIN xama.`sedes` s ON s.`sede`=p.`sede000`
-	WHERE p.sede000 != '' and s.filas=1 GROUP BY sede000;";
-	return ejecutarConsulta($sql);
-}
-
-public function regresaRolSedes($id){
-	$sql="SELECT nombre FROM sedes where id='$id' and filas=1";		
-	return ejecutarConsulta($sql);
-}
-
-
-
-}
-
- ?>
+?>

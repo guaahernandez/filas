@@ -82,6 +82,8 @@ table.blueTable tfoot {
                           <option value="3">Turnos por ubicación</option>
                           <option value="4">Estado en línea</option>
                           <option value="5">Estudio detallado</option>
+                          <option value="6">Métricas de Turnos (Vendedor y Sede)</option>
+                          <option value="7">Comparador Head-to-Head (2 Sedes)</option>
                       </select>                    
                     </div>
                 </div>
@@ -89,6 +91,11 @@ table.blueTable tfoot {
                     <label>Sede</label>
                     <select class="form-control" name="fsede" id="fsede">
                       <option value="1">Sede Central</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 col-md-3 col-lg-2 mb-2" id="lasede2" style="display: none;">
+                    <label>Comparar con (Sede 2)</label>
+                    <select class="form-control" name="fsede2" id="fsede2">
                     </select>
                 </div>
                 <div class="col-sm-4 col-md-3 col-lg-2 mb-2" id="lafecha1" style="display: none;">                  

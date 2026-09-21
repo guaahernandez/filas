@@ -68,22 +68,26 @@ include 'header.php'
               <a href="javascript:void(0);" onclick="MoverFecha('-');" class="btn btn-sm btn-secondary"><i class="mdi mdi-arrow-left-bold"></i></a>
               <a href="javascript:void(0);" onclick="MoverHoy();" class="btn btn-sm btn-info"><i class="mdi mdi-calendar"></i> hoy </a>
               <a href="javascript:void(0);" onclick="MoverFecha('+');" class="btn btn-sm btn-secondary"><i class="mdi mdi-arrow-right-bold"></i></a>
-              <input type="date" onchange="totvisitas();" class="form-control" id="fecini" name="fecini" value="<?=date('Y-m-d')?>">
-              <!-- <input type="date" onchange="totvisitas();" class="form-control" id="fecini" name="fecini" value="<?=date('Y-m-d')?>" min="<?=date_format($date, 'Y-m-d')?>"> -->
-            <!-- </div> -->
+              <input type="date" class="form-control" id="fecini" name="fecini" value="<?=date('Y-m-d')?>">
+              <!-- <input type="date" onchange="totvisitas();" class="form-control" id="fecini" name="fecini" value="<?=date('Y-m-d')?>"> -->
           </div>
           <div class="col-sm-2">
             <!-- <div class="form-group"> -->
               <label>Hasta</label>
-              <input type="date" onchange="totvisitas();" class="form-control" id="fecfin" name="fecfin" value="<?=date('Y-m-d')?>">
-              <!-- <input type="date" onchange="totvisitas();" class="form-control" id="fecfin" name="fecfin" value="<?=date('Y-m-d')?>" min="<?=date_format($date, 'Y-m-d')?>"> -->
-            <!-- </div> -->
+              <input type="date" class="form-control" id="fecfin" name="fecfin" value="<?=date('Y-m-d')?>">
+              <!-- <input type="date" onchange="totvisitas();" class="form-control" id="fecfin" name="fecfin" value="<?=date('Y-m-d')?>"> -->
           </div>
 
           <div class="col-sm-1">
             <div class="form-group">
               <label>&nbsp;</label>
               <input type="submit" class="form-control btn btn-info" value="Ver">
+            </div>
+          </div>
+          <div class="col-sm-1">
+            <div class="form-group">
+              <label>&nbsp;</label>
+              <div id="espere"></div>
             </div>
           </div>
         </div>

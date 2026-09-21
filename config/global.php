@@ -1,6 +1,6 @@
 <?php 
 //ip de la pc servidor base de datos
-define("DB_HOST", "ws.laguacamaya.cr:13568");
+define("DB_HOST", "10.0.1.55");
 
 // nombre de la base de datos
 define("DB_NAME", "xama");
